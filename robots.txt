@@ -1,4 +1,3 @@
 User-agent: *
 Allow: /
-
-Sitemap: https://ratedmaps.com/sitemap.xml
+Sitemap: https://videovedivinci.com/sitemap.xml
