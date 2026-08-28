@@ -1,252 +1,184 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
-  <title>RatedMaps – Discover the Best Rated Places</title>
+<title>RatedMaps – Discover Highly Rated Places</title>
+<meta name="description" content="Discover highly rated restaurants, hotels, bars and local businesses with RatedMaps.">
 
-  <meta name="description" content="Discover the best rated restaurants, cafés, bars, hotels and attractions with RatedMaps. Find great places and explore ratings by city.">
+<link rel="canonical" href="https://ratedmaps.com/">
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<meta property="og:title" content="RatedMaps – Discover Highly Rated Places">
+<meta property="og:description" content="Discover highly rated restaurants, hotels, bars and local businesses with RatedMaps.">
+<meta property="og:url" content="https://ratedmaps.com/">
+<meta property="og:type" content="website">
 
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f6f7f9;
-      color: #202124;
-    }
+<style>
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f5f5;
+    color: #161616;
+}
 
-    header {
-      background: #ffffff;
-      border-bottom: 1px solid #e5e7eb;
-      padding: 18px 20px;
-    }
+header {
+    background: #111;
+    color: white;
+    padding: 24px;
+}
 
-    .logo {
-      max-width: 1100px;
-      margin: auto;
-      font-size: 26px;
-      font-weight: 800;
-      letter-spacing: -1px;
-    }
+header a {
+    color: white;
+    text-decoration: none;
+}
 
-    .logo span {
-      color: #2563eb;
-    }
+main {
+    max-width: 1100px;
+    margin: auto;
+    padding: 30px 20px 60px;
+}
 
-    .hero {
-      max-width: 900px;
-      margin: auto;
-      padding: 70px 20px 45px;
-      text-align: center;
-    }
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+    gap: 20px;
+}
 
-    h1 {
-      font-size: 46px;
-      line-height: 1.1;
-      margin-bottom: 15px;
-    }
+.card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.08);
+}
 
-    .hero p {
-      color: #60646c;
-      font-size: 19px;
-      margin-bottom: 32px;
-    }
+.rating {
+    font-size: 22px;
+    font-weight: bold;
+}
 
-    .search {
-      max-width: 650px;
-      margin: auto;
-      background: white;
-      display: flex;
-      border-radius: 14px;
-      box-shadow: 0 4px 25px rgba(0,0,0,.10);
-      overflow: hidden;
-    }
+.reviews {
+    color: #666;
+}
 
-    .search input {
-      width: 100%;
-      border: 0;
-      outline: 0;
-      padding: 19px;
-      font-size: 16px;
-    }
+.button {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 10px 15px;
+    background: #111;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+}
 
-    .search button {
-      border: 0;
-      background: #2563eb;
-      color: white;
-      padding: 0 25px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+.category {
+    display: block;
+    background: white;
+    margin: 10px 0;
+    padding: 18px;
+    text-decoration: none;
+    color: #111;
+    border-radius: 10px;
+}
 
-    .content {
-      max-width: 1050px;
-      margin: auto;
-      padding: 20px 20px 70px;
-    }
+footer {
+    text-align: center;
+    padding: 30px;
+    color: #777;
+}
 
-    .content h2 {
-      margin-bottom: 20px;
-      font-size: 27px;
-    }
+.notice {
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 20px 0;
+    font-size: 14px;
+}
+</style>
 
-    .city {
-      margin-bottom: 45px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-    }
-
-    .card {
-      display: block;
-      background: white;
-      padding: 25px 20px;
-      border-radius: 14px;
-      text-decoration: none;
-      color: #202124;
-      box-shadow: 0 2px 10px rgba(0,0,0,.06);
-      transition: .2s;
-    }
-
-    .card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 5px 18px rgba(0,0,0,.10);
-    }
-
-    .icon {
-      font-size: 30px;
-      margin-bottom: 14px;
-    }
-
-    .card strong {
-      display: block;
-      font-size: 17px;
-      margin-bottom: 7px;
-    }
-
-    .card small {
-      color: #6b7280;
-    }
-
-    .coming {
-      text-align: center;
-      padding: 40px 20px;
-      color: #6b7280;
-    }
-
-    footer {
-      text-align: center;
-      padding: 30px 20px;
-      border-top: 1px solid #e5e7eb;
-      background: white;
-      color: #6b7280;
-      font-size: 14px;
-    }
-
-    @media(max-width: 750px) {
-      h1 {
-        font-size: 36px;
-      }
-
-      .hero {
-        padding-top: 50px;
-      }
-
-      .grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .search button {
-        padding: 0 18px;
-      }
-    }
-
-    @media(max-width: 430px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
 </head>
 
 <body>
 
 <header>
-  <div class="logo">Rated<span>Maps</span></div>
+<a href="/">
+<h1>RatedMaps</h1>
+</a>
+<p>Discover highly rated places.</p>
 </header>
 
-<section class="hero">
+<main>
 
-  <h1>Discover the best rated places.</h1>
+<h2>Discover Barcelona by Ratings</h2>
 
-  <p>
-    Find highly rated restaurants, cafés, bars, hotels and attractions
-    in cities around the world.
-  </p>
+<p>
+RatedMaps helps you discover restaurants, hotels, bars,
+cafés and other places using public place information.
+</p>
 
-  <div class="search">
-    <input type="text" placeholder="Search a city or place...">
-    <button>Search</button>
-  </div>
+<h3>Barcelona Categories</h3>
 
-</section>
 
-<main class="content">
+<a class="category" href="/barcelona/restaurants/">
+<strong>Restaurants</strong><br>
+Explore Restaurants in Barcelona
+</a>
 
-  <section class="city">
+<a class="category" href="/barcelona/hotels/">
+<strong>Hotels</strong><br>
+Explore Hotels in Barcelona
+</a>
 
-    <h2>📍 Explore Barcelona</h2>
+<a class="category" href="/barcelona/bars/">
+<strong>Bars</strong><br>
+Explore Bars in Barcelona
+</a>
 
-    <div class="grid">
+<a class="category" href="/barcelona/cafes/">
+<strong>Cafes</strong><br>
+Explore Cafes in Barcelona
+</a>
 
-      <a class="card" href="#">
-        <div class="icon">🍽️</div>
-        <strong>Restaurants</strong>
-        <small>Discover the best rated restaurants</small>
-      </a>
+<a class="category" href="/barcelona/nightlife/">
+<strong>Nightlife</strong><br>
+Explore Nightlife in Barcelona
+</a>
 
-      <a class="card" href="#">
-        <div class="icon">☕</div>
-        <strong>Cafés</strong>
-        <small>Find highly rated cafés</small>
-      </a>
+<a class="category" href="/barcelona/shopping/">
+<strong>Shopping</strong><br>
+Explore Shopping in Barcelona
+</a>
 
-      <a class="card" href="#">
-        <div class="icon">🍸</div>
-        <strong>Bars</strong>
-        <small>Explore popular bars</small>
-      </a>
+<a class="category" href="/barcelona/car-rental/">
+<strong>Car Rental</strong><br>
+Explore Car Rental in Barcelona
+</a>
 
-      <a class="card" href="#">
-        <div class="icon">🏨</div>
-        <strong>Hotels</strong>
-        <small>Find top rated hotels</small>
-      </a>
+<a class="category" href="/barcelona/car-leasing/">
+<strong>Car Leasing</strong><br>
+Explore Car Leasing in Barcelona
+</a>
 
-    </div>
+<a class="category" href="/barcelona/dating-services/">
+<strong>Dating Services</strong><br>
+Explore Dating Services in Barcelona
+</a>
 
-  </section>
+<a class="category" href="/barcelona/luxury-bags/">
+<strong>Luxury Bags</strong><br>
+Explore Luxury Bags in Barcelona
+</a>
 
-  <div class="coming">
-    <strong>More cities coming soon.</strong>
-    <br><br>
-    RatedMaps is building a new way to discover great places through ratings and maps.
-  </div>
+
+<div class="notice">
+Ratings and place information are provided through Google Maps Platform.
+RatedMaps is an independent website and is not affiliated with Google.
+</div>
 
 </main>
 
 <footer>
-  © 2026 RatedMaps.com
+RatedMaps.com — Independent place discovery portal.
 </footer>
 
 </body>
