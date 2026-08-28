@@ -1,0 +1,894 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Best Cafes in Barcelona – Ratings &amp; Reviews</title>
+<meta name="description" content="Discover highly rated cafes in Barcelona. Compare ratings and read selected Google reviews on RatedMaps.">
+
+<link rel="canonical" href="https://ratedmaps.com/barcelona/cafes/">
+
+<meta property="og:title" content="Best Cafes in Barcelona – Ratings &amp; Reviews">
+<meta property="og:description" content="Discover highly rated cafes in Barcelona. Compare ratings and read selected Google reviews on RatedMaps.">
+<meta property="og:url" content="https://ratedmaps.com/barcelona/cafes/">
+<meta property="og:type" content="website">
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f4f4;
+    color: #171717;
+}
+
+header {
+    background: #111;
+    color: white;
+    padding: 22px 20px;
+}
+
+.brand {
+    max-width: 1100px;
+    margin: auto;
+}
+
+.logo {
+    display: inline-block;
+    color: white;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    text-decoration: none;
+}
+
+.logo span {
+    font-weight: 400;
+}
+
+.tagline {
+    margin: 5px 0 0;
+    color: #ccc;
+}
+
+.topnav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+}
+.topnav a {
+    color: #eee;
+    text-decoration: none;
+    padding: 7px 9px;
+    border-radius: 7px;
+}
+.topnav a:hover { background: #2b2b2b; }
+
+.breadcrumbs {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+}
+.breadcrumbs a { color: #174ea6; text-decoration: none; }
+
+.cuisine-menu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin: 15px 0 28px;
+}
+.cuisine-menu a {
+    background: white;
+    border: 1px solid #ddd;
+    color: #111;
+    text-decoration: none;
+    padding: 10px 13px;
+    border-radius: 999px;
+}
+
+main {
+    max-width: 1100px;
+    margin: auto;
+    padding: 30px 20px 60px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(310px,1fr));
+    gap: 22px;
+}
+
+.card {
+    background: white;
+    border-radius: 14px;
+    padding: 21px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.08);
+}
+
+.card h3 {
+    margin-top: 0;
+}
+
+.rating {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.review-count {
+    color: #666;
+    margin-top: 5px;
+}
+
+.button {
+    display: inline-block;
+    margin: 8px 5px 8px 0;
+    padding: 10px 14px;
+    background: #111;
+    color: white;
+    text-decoration: none;
+    border-radius: 7px;
+}
+
+.category {
+    display: block;
+    background: white;
+    margin: 10px 0;
+    padding: 18px;
+    text-decoration: none;
+    color: #111;
+    border-radius: 10px;
+}
+
+.google-reviews {
+    margin-top: 22px;
+    padding-top: 17px;
+    border-top: 1px solid #ddd;
+}
+
+.google-reviews h4 {
+    margin: 0 0 14px;
+}
+
+.review {
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.review:last-of-type {
+    border-bottom: 0;
+}
+
+.review-author {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.review-author img {
+    width: 38px;
+    height: 38px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.review-author a {
+    color: #111;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.review-meta {
+    color: #666;
+    font-size: 13px;
+    margin-top: 3px;
+}
+
+.review-text {
+    line-height: 1.5;
+    margin: 11px 0 7px;
+}
+
+.review-link,
+.all-reviews {
+    color: #174ea6;
+    font-size: 14px;
+}
+
+.all-reviews {
+    display: inline-block;
+    margin-top: 13px;
+}
+
+.google-attribution {
+    margin-top: 15px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #555;
+}
+
+.third-party-attribution {
+    font-size: 11px;
+    color: #777;
+}
+
+.loading-reviews,
+.review-empty {
+    color: #777;
+    font-size: 14px;
+}
+
+.notice {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 20px 0;
+    font-size: 14px;
+}
+
+footer {
+    text-align: center;
+    padding: 30px;
+    color: #777;
+}
+
+.klitty-credit {
+    color: #ff4fa3;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: .3px;
+    margin-top: 8px;
+}
+.topnav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+}
+.topnav a {
+    color: #eee;
+    text-decoration: none;
+    padding: 7px 9px;
+    border-radius: 7px;
+}
+.topnav a:hover { background: #2b2b2b; }
+.rating {
+    color: #fbbc04 !important;
+}
+.review-count {
+    color: #25D366 !important;
+    font-weight: 700;
+}
+.ratedmaps-positive-note {
+    color: #25D366;
+    font-weight: 700;
+}
+.reservation-button {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 14px;
+    background: #25D366;
+    color: #07140b !important;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 800;
+}
+.breadcrumbs {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+}
+.breadcrumbs a {
+    color: #174ea6;
+    text-decoration: none;
+}
+.cuisine-menu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin: 15px 0 28px;
+}
+.cuisine-menu a {
+    background: white;
+    border: 1px solid #ddd;
+    color: #111;
+    text-decoration: none;
+    padding: 10px 13px;
+    border-radius: 999px;
+}
+
+</style>
+
+
+<script>
+async function initRatedMapsReviews() {
+    try {
+        const { Place } = await google.maps.importLibrary("places");
+
+        const containers = document.querySelectorAll(".google-reviews");
+
+        for (const container of containers) {
+            const placeId = container.dataset.placeId;
+
+            if (!placeId) {
+                continue;
+            }
+
+            try {
+                const place = new Place({
+                    id: placeId,
+                    requestedLanguage: navigator.language || "en"
+                });
+
+                await place.fetchFields({
+                    fields: [
+                        "displayName",
+                        "reviews",
+                        "googleMapsLinks"
+                    ]
+                });
+
+                container.innerHTML = "";
+
+                const heading = document.createElement("h4");
+                heading.textContent = "Selected positive Google reviews";
+                container.appendChild(heading);
+
+                const reviews = (place.reviews || [])
+                    .filter(review => Number(review.rating || 0) >= 4)
+                    .slice(0, 3);
+
+                if (!reviews.length) {
+                    const empty = document.createElement("p");
+                    empty.className = "review-empty";
+                    empty.textContent =
+                        "No Google review text is currently available for this place.";
+                    container.appendChild(empty);
+                    continue;
+                }
+
+                for (const review of reviews) {
+                    const box = document.createElement("div");
+                    box.className = "review";
+
+                    const header = document.createElement("div");
+                    header.className = "review-author";
+
+                    const attribution = review.authorAttribution;
+
+                    if (attribution && attribution.photoURI) {
+                        const photo = document.createElement("img");
+                        photo.src = attribution.photoURI;
+                        photo.alt = "";
+                        photo.loading = "lazy";
+                        photo.referrerPolicy = "no-referrer";
+                        header.appendChild(photo);
+                    }
+
+                    const authorArea = document.createElement("div");
+
+                    if (attribution) {
+                        if (attribution.uri) {
+                            const author = document.createElement("a");
+                            author.href = attribution.uri;
+                            author.target = "_blank";
+                            author.rel = "noopener";
+                            author.textContent =
+                                attribution.displayName || "Google Maps user";
+                            authorArea.appendChild(author);
+                        } else {
+                            const author = document.createElement("strong");
+                            author.textContent =
+                                attribution.displayName || "Google Maps user";
+                            authorArea.appendChild(author);
+                        }
+                    } else {
+                        const author = document.createElement("strong");
+                        author.textContent = "Google Maps user";
+                        authorArea.appendChild(author);
+                    }
+
+                    const meta = document.createElement("div");
+                    meta.className = "review-meta";
+
+                    const stars = review.rating
+                        ? "★".repeat(Math.round(review.rating))
+                        : "";
+
+                    const age =
+                        review.relativePublishTimeDescription || "";
+
+                    meta.textContent =
+                        stars + (stars && age ? " · " : "") + age;
+
+                    authorArea.appendChild(meta);
+                    header.appendChild(authorArea);
+                    box.appendChild(header);
+
+                    if (review.text) {
+                        const text = document.createElement("p");
+                        text.className = "review-text";
+                        const fullText = String(review.text);
+                        text.textContent = fullText.length > 250
+                            ? fullText.slice(0, 247).trimEnd() + "..."
+                            : fullText;
+                        box.appendChild(text);
+                    }
+
+                    if (review.googleMapsURI) {
+                        const original = document.createElement("a");
+                        original.className = "review-link";
+                        original.href = review.googleMapsURI;
+                        original.target = "_blank";
+                        original.rel = "noopener";
+                        original.textContent =
+                            "Read original review on Google Maps";
+                        box.appendChild(original);
+                    }
+
+                    container.appendChild(box);
+                }
+
+                const attributionLine = document.createElement("div");
+                attributionLine.className = "google-attribution";
+                attributionLine.textContent = "Reviews provided by Google Maps";
+                container.appendChild(attributionLine);
+
+                if (place.attributions && place.attributions.length) {
+                    for (const attribution of place.attributions) {
+                        const line = document.createElement("div");
+                        line.className = "third-party-attribution";
+                        line.textContent = attribution;
+                        container.appendChild(line);
+                    }
+                }
+
+                if (
+                    place.googleMapsLinks &&
+                    place.googleMapsLinks.reviewsURI
+                ) {
+                    const allReviews = document.createElement("a");
+                    allReviews.className = "all-reviews";
+                    allReviews.href = place.googleMapsLinks.reviewsURI;
+                    allReviews.target = "_blank";
+                    allReviews.rel = "noopener";
+                    allReviews.textContent =
+                        "See all reviews on Google Maps";
+                    container.appendChild(allReviews);
+                }
+
+            } catch (error) {
+                console.error(
+                    "Could not load reviews for place:",
+                    placeId,
+                    error
+                );
+
+                container.innerHTML =
+                    '<p class="review-empty">Reviews could not be loaded right now.</p>';
+            }
+        }
+
+    } catch (error) {
+        console.error("Google Places could not be initialized:", error);
+    }
+}
+
+window.initRatedMapsReviews = initRatedMapsReviews;
+</script>
+
+</head>
+
+<body>
+
+<header>
+<div class="brand">
+<a class="logo" href="/">Rated<span>Maps</span></a>
+<p class="tagline">Discover places through ratings and reviews.</p>
+<div class="klitty-credit">Powered by KlittyCrew</div>
+<nav class="topnav" aria-label="Main navigation">
+<a href="/">Home</a>
+<a href="/barcelona/restaurants/">Restaurants</a>
+<a href="/barcelona/hotels/">Hotels</a>
+<a href="/barcelona/bars/">Bars</a>
+<a href="/barcelona/cafes/">Cafes</a>
+<a href="/barcelona/nightlife/">Nightlife</a>
+<a href="/barcelona/shopping/">More</a>
+</nav>
+</div>
+</header>
+
+<main>
+
+<h1>Best Cafes in Barcelona</h1>
+
+<p>
+Explore highly rated cafes in Barcelona.
+Compare ratings and read a selection of current Google reviews
+directly on RatedMaps.
+</p>
+
+
+
+<div class="notice">
+Reviews are loaded from Google when you open this page.
+The available review selection can therefore change over time.
+Use the Google Maps links for the complete and current review listing.
+</div>
+
+<div class="grid">
+
+<article class="card">
+
+<h3>Coco Social House | Gràcia</h3>
+
+<div class="rating">
+★ 4.9
+</div>
+
+<p class="review-count">
+12178 Google ratings
+</p>
+
+<p>Avinguda de la Riera de Cassoles, 56, Gràcia, 08012 Barcelona</p>
+
+<a class="button"
+href="https://maps.google.com/?cid=16775718991279823269&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
+target="_blank"
+rel="noopener">
+Google Maps
+</a>
+
+<a class="button"
+href="http://cocosocialhouse.com/"
+target="_blank"
+rel="noopener nofollow">
+Official website
+</a>
+
+<div
+    class="google-reviews"
+    data-place-id="ChIJyQc2EDWjpBIRpRkCf4pTz-g">
+    <p class="loading-reviews">Loading current Google reviews…</p>
+</div>
+
+</article>
+
+<article class="card">
+
+<h3>Garage Coffee</h3>
+
+<div class="rating">
+★ 4.9
+</div>
+
+<p class="review-count">
+1812 Google ratings
+</p>
+
+<p>Carrer de Joan Gamper, 13, Les Corts, 08014 Barcelona</p>
+
+<a class="button"
+href="https://maps.google.com/?cid=17499168501485326460&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
+target="_blank"
+rel="noopener">
+Google Maps
+</a>
+
+<a class="button"
+href="https://www.instagram.com/garagecoffeebcn/"
+target="_blank"
+rel="noopener nofollow">
+Official website
+</a>
+
+<div
+    class="google-reviews"
+    data-place-id="ChIJb7hWM5KZpBIRfNC8mwmJ2fI">
+    <p class="loading-reviews">Loading current Google reviews…</p>
+</div>
+
+</article>
+
+<article class="card">
+
+<h3>Magnolia café</h3>
+
+<div class="rating">
+★ 4.9
+</div>
+
+<p class="review-count">
+580 Google ratings
+</p>
+
+<p>Carrer de n&#x27;Amargós, 18, Ciutat Vella, 08002 Barcelona</p>
+
+<a class="button"
+href="https://maps.google.com/?cid=9843661571560098448&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
+target="_blank"
+rel="noopener">
+Google Maps
+</a>
+
+<a class="button"
+href="https://magnoliasbcncafe.my.canva.site/"
+target="_blank"
+rel="noopener nofollow">
+Official website
+</a>
+
+<div
+    class="google-reviews"
+    data-place-id="ChIJX4TfZQCjpBIRkMoAngu2m4g">
+    <p class="loading-reviews">Loading current Google reviews…</p>
+</div>
+
+</article>
+
+<article class="card">
+
+<h3>Bloome By Sasha | Brunch Sin Gluten Gótico</h3>
+
+<div class="rating">
+★ 4.8
+</div>
+
+<p class="review-count">
+5050 Google ratings
+</p>
+
+<p>Via Laietana, 45, Ciutat Vella, 08003 Barcelona</p>
+
+<a class="button"
+href="https://maps.google.com/?cid=16367371864748415611&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
+target="_blank"
+rel="noopener">
+Google Maps
+</a>
+
+<a class="button"
+href="https://www.bloomebysasha.es/brunch-gotico"
+target="_blank"
+rel="noopener nofollow">
+Official website
+</a>
+
+<div
+    class="google-reviews"
+    data-place-id="ChIJz03MMYCjpBIRe1oNMf6VJOM">
+    <p class="loading-reviews">Loading current Google reviews…</p>
+</div>
+
+</article>
+
+<article class="card">
+
+<h3>NOVELA - COFFEE / BRUNCH / COCKTAILS</h3>
+
+<div class="rating">
+★ 4.8
+</div>
+
+<p class="review-count">
+1770 Google ratings
+</p>
+
+<p>Carrer d&#x27;Ausiàs Marc, 31, Eixample, 08010 Barcelona</p>
+
+<a class="button"
+href="https://maps.google.com/?cid=4639907506345911809&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
+target="_blank"
+rel="noopener">
+Google Maps
+</a>
+
+<a class="button"
+href="http://www.novelabcn.com/"
+target="_blank"
+rel="noopener nofollow">
+Official website
+</a>
+
+<div
+    class="google-reviews"
+    data-place-id="ChIJUQU418ejpBIRAaZqMktDZEA">
+    <p class="loading-reviews">Loading current Google reviews…</p>
+</div>
+
+</article>
+
+<article class="card">
+
+<h3>Dalston Coffee Barcelona - Specialty Coffee - Coffee Roasters</h3>
+
+<div class="rating">
+★ 4.8
+</div>
+
+<p class="review-count">
+1598 Google ratings
+</p>
+
+<p>Carrer de les Ramelleres, 16, Ciutat Vella, 08001 Barcelona</p>
+
+<a class="button"
+href="https://maps.google.com/?cid=11562988920485431926&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
+target="_blank"
+rel="noopener">
+Google Maps
+</a>
+
+<a class="button"
+href="http://www.dalstoncoffee.com/"
+target="_blank"
+rel="noopener nofollow">
+Official website
+</a>
+
+<div
+    class="google-reviews"
+    data-place-id="ChIJGTvFP_SipBIRdspP6yj9d6A">
+    <p class="loading-reviews">Loading current Google reviews…</p>
+</div>
+
+</article>
+
+<article class="card">
+
+<h3>Kafeto bakery &amp; coffee</h3>
+
+<div class="rating">
+★ 4.8
+</div>
+
+<p class="review-count">
+1305 Google ratings
+</p>
+
+<p>La Rambla, 116, Ciutat Vella, 08002 Barcelona</p>
+
+<a class="button"
+href="https://maps.google.com/?cid=16159729513037080137&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
+target="_blank"
+rel="noopener">
+Google Maps
+</a>
+
+<div
+    class="google-reviews"
+    data-place-id="ChIJNWFiCO-jpBIRSab4yl_kQuA">
+    <p class="loading-reviews">Loading current Google reviews…</p>
+</div>
+
+</article>
+
+<article class="card">
+
+<h3>paradero | Barcelona</h3>
+
+<div class="rating">
+★ 4.7
+</div>
+
+<p class="review-count">
+1596 Google ratings
+</p>
+
+<p>Carrer del Comte Borrell, 107, Eixample, 08015 Barcelona</p>
+
+<a class="button"
+href="https://maps.google.com/?cid=8948583604563839830&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
+target="_blank"
+rel="noopener">
+Google Maps
+</a>
+
+<a class="button"
+href="http://www.paradero.eu/"
+target="_blank"
+rel="noopener nofollow">
+Official website
+</a>
+
+<div
+    class="google-reviews"
+    data-place-id="ChIJA9YMGGKipBIRVovpcGDBL3w">
+    <p class="loading-reviews">Loading current Google reviews…</p>
+</div>
+
+</article>
+
+<article class="card">
+
+<h3>Nomad Coffee Bar (ex Coffee Lab)</h3>
+
+<div class="rating">
+★ 4.6
+</div>
+
+<p class="review-count">
+2917 Google ratings
+</p>
+
+<p>Passatge Sert, 12, Ciutat Vella, 08003 Barcelona</p>
+
+<a class="button"
+href="https://maps.google.com/?cid=12439994604101508885&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
+target="_blank"
+rel="noopener">
+Google Maps
+</a>
+
+<a class="button"
+href="http://nomadcoffee.es/"
+target="_blank"
+rel="noopener nofollow">
+Official website
+</a>
+
+<div
+    class="google-reviews"
+    data-place-id="ChIJF3295_qipBIRFR8_uS69o6w">
+    <p class="loading-reviews">Loading current Google reviews…</p>
+</div>
+
+</article>
+
+<article class="card">
+
+<h3>LITTLE FERN</h3>
+
+<div class="rating">
+★ 4.6
+</div>
+
+<p class="review-count">
+2881 Google ratings
+</p>
+
+<p>Carrer de Pere IV, 168, Sant Martí, 08005 Barcelona</p>
+
+<a class="button"
+href="https://maps.google.com/?cid=16811878542695462365&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
+target="_blank"
+rel="noopener">
+Google Maps
+</a>
+
+<a class="button"
+href="http://www.littleferncafe.com/"
+target="_blank"
+rel="noopener nofollow">
+Official website
+</a>
+
+<div
+    class="google-reviews"
+    data-place-id="ChIJa6oysT2jpBIR3fVfIHbKT-k">
+    <p class="loading-reviews">Loading current Google reviews…</p>
+</div>
+
+</article>
+
+</div>
+
+</main>
+
+<footer>
+RatedMaps.com — Independent place discovery portal.
+</footer>
+
+
+<script
+    async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPGg9UWnCosY1zpyHGUymh8naGmOT09GM&loading=async&libraries=places&callback=initRatedMapsReviews">
+</script>
+
+
+</body>
+</html>
