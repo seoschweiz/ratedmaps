@@ -55,6 +55,42 @@ header {
     color: #ccc;
 }
 
+.topnav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+}
+.topnav a {
+    color: #eee;
+    text-decoration: none;
+    padding: 7px 9px;
+    border-radius: 7px;
+}
+.topnav a:hover { background: #2b2b2b; }
+
+.breadcrumbs {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+}
+.breadcrumbs a { color: #174ea6; text-decoration: none; }
+
+.cuisine-menu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin: 15px 0 28px;
+}
+.cuisine-menu a {
+    background: white;
+    border: 1px solid #ddd;
+    color: #111;
+    text-decoration: none;
+    padding: 10px 13px;
+    border-radius: 999px;
+}
+
 main {
     max-width: 1100px;
     margin: auto;
@@ -233,10 +269,12 @@ async function initRatedMapsReviews() {
                 container.innerHTML = "";
 
                 const heading = document.createElement("h4");
-                heading.textContent = "Selected Google reviews";
+                heading.textContent = "Selected positive Google reviews";
                 container.appendChild(heading);
 
-                const reviews = place.reviews || [];
+                const reviews = (place.reviews || [])
+                    .filter(review => Number(review.rating || 0) >= 4)
+                    .slice(0, 3);
 
                 if (!reviews.length) {
                     const empty = document.createElement("p");
@@ -247,7 +285,7 @@ async function initRatedMapsReviews() {
                     continue;
                 }
 
-                for (const review of reviews.slice(0, 5)) {
+                for (const review of reviews) {
                     const box = document.createElement("div");
                     box.className = "review";
 
@@ -308,7 +346,10 @@ async function initRatedMapsReviews() {
                     if (review.text) {
                         const text = document.createElement("p");
                         text.className = "review-text";
-                        text.textContent = review.text;
+                        const fullText = String(review.text);
+                        text.textContent = fullText.length > 250
+                            ? fullText.slice(0, 247).trimEnd() + "..."
+                            : fullText;
                         box.appendChild(text);
                     }
 
@@ -382,6 +423,15 @@ window.initRatedMapsReviews = initRatedMapsReviews;
 <div class="brand">
 <a class="logo" href="/">Rated<span>Maps</span></a>
 <p class="tagline">Discover places through ratings and reviews.</p>
+<nav class="topnav" aria-label="Main navigation">
+<a href="/">Home</a>
+<a href="/barcelona/restaurants/">Restaurants</a>
+<a href="/barcelona/hotels/">Hotels</a>
+<a href="/barcelona/bars/">Bars</a>
+<a href="/barcelona/cafes/">Cafes</a>
+<a href="/barcelona/nightlife/">Nightlife</a>
+<a href="/barcelona/shopping/">More</a>
+</nav>
 </div>
 </header>
 
@@ -394,6 +444,8 @@ Explore highly rated restaurants in Barcelona.
 Compare ratings and read a selection of current Google reviews
 directly on RatedMaps.
 </p>
+
+<div class="cuisine-menu"><a href="/barcelona/restaurants/">All Restaurants</a><a href="/barcelona/restaurants/italian/">Italian</a><a href="/barcelona/restaurants/spanish/">Spanish</a><a href="/barcelona/restaurants/catalan/">Catalan</a><a href="/barcelona/restaurants/french/">French</a><a href="/barcelona/restaurants/chinese/">Chinese</a><a href="/barcelona/restaurants/japanese/">Japanese</a><a href="/barcelona/restaurants/korean/">Korean</a><a href="/barcelona/restaurants/indian/">Indian</a><a href="/barcelona/restaurants/thai/">Thai</a><a href="/barcelona/restaurants/mexican/">Mexican</a><a href="/barcelona/restaurants/greek/">Greek</a><a href="/barcelona/restaurants/german/">German</a><a href="/barcelona/restaurants/lebanese/">Lebanese</a><a href="/barcelona/restaurants/turkish/">Turkish</a><a href="/barcelona/restaurants/argentine/">Argentine</a></div>
 
 <div class="notice">
 Reviews are loaded from Google when you open this page.
@@ -520,7 +572,7 @@ Official website
 </div>
 
 <p class="review-count">
-3369 Google ratings
+3376 Google ratings
 </p>
 
 <p>Plaça Portal de la Pau, 4, Ciutat Vella, 08002 Barcelona</p>
@@ -556,7 +608,7 @@ Official website
 </div>
 
 <p class="review-count">
-36571 Google ratings
+36572 Google ratings
 </p>
 
 <p>Carrer dels Escudellers, 33, Ciutat Vella, 08002 Barcelona</p>
@@ -621,28 +673,35 @@ Official website
 
 <article class="card">
 
-<h3>Can Plaça</h3>
+<h3>Casa Amàlia</h3>
 
 <div class="rating">
 ★ 4.7
 </div>
 
 <p class="review-count">
-6310 Google ratings
+11918 Google ratings
 </p>
 
-<p>Rambla de Catalunya, 8, Eixample, 08007 Barcelona</p>
+<p>Ptge. del Mercat, 14, Eixample, 08009 Barcelona</p>
 
 <a class="button"
-href="https://maps.google.com/?cid=889259835000928522&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
+href="https://maps.google.com/?cid=17064161635510388204&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
 target="_blank"
 rel="noopener">
 Google Maps
 </a>
 
+<a class="button"
+href="https://casaamalia.com/mercatconcepcio/inicio"
+target="_blank"
+rel="noopener nofollow">
+Official website
+</a>
+
 <div
     class="google-reviews"
-    data-place-id="ChIJ29H6d_ijpBIRCrlAwhtJVww">
+    data-place-id="ChIJcVA_AeyipBIR7AVyApkU0Ow">
     <p class="loading-reviews">Loading current Google reviews…</p>
 </div>
 

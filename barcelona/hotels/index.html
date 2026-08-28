@@ -55,6 +55,42 @@ header {
     color: #ccc;
 }
 
+.topnav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+}
+.topnav a {
+    color: #eee;
+    text-decoration: none;
+    padding: 7px 9px;
+    border-radius: 7px;
+}
+.topnav a:hover { background: #2b2b2b; }
+
+.breadcrumbs {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+}
+.breadcrumbs a { color: #174ea6; text-decoration: none; }
+
+.cuisine-menu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin: 15px 0 28px;
+}
+.cuisine-menu a {
+    background: white;
+    border: 1px solid #ddd;
+    color: #111;
+    text-decoration: none;
+    padding: 10px 13px;
+    border-radius: 999px;
+}
+
 main {
     max-width: 1100px;
     margin: auto;
@@ -233,10 +269,12 @@ async function initRatedMapsReviews() {
                 container.innerHTML = "";
 
                 const heading = document.createElement("h4");
-                heading.textContent = "Selected Google reviews";
+                heading.textContent = "Selected positive Google reviews";
                 container.appendChild(heading);
 
-                const reviews = place.reviews || [];
+                const reviews = (place.reviews || [])
+                    .filter(review => Number(review.rating || 0) >= 4)
+                    .slice(0, 3);
 
                 if (!reviews.length) {
                     const empty = document.createElement("p");
@@ -247,7 +285,7 @@ async function initRatedMapsReviews() {
                     continue;
                 }
 
-                for (const review of reviews.slice(0, 5)) {
+                for (const review of reviews) {
                     const box = document.createElement("div");
                     box.className = "review";
 
@@ -308,7 +346,10 @@ async function initRatedMapsReviews() {
                     if (review.text) {
                         const text = document.createElement("p");
                         text.className = "review-text";
-                        text.textContent = review.text;
+                        const fullText = String(review.text);
+                        text.textContent = fullText.length > 250
+                            ? fullText.slice(0, 247).trimEnd() + "..."
+                            : fullText;
                         box.appendChild(text);
                     }
 
@@ -382,6 +423,15 @@ window.initRatedMapsReviews = initRatedMapsReviews;
 <div class="brand">
 <a class="logo" href="/">Rated<span>Maps</span></a>
 <p class="tagline">Discover places through ratings and reviews.</p>
+<nav class="topnav" aria-label="Main navigation">
+<a href="/">Home</a>
+<a href="/barcelona/restaurants/">Restaurants</a>
+<a href="/barcelona/hotels/">Hotels</a>
+<a href="/barcelona/bars/">Bars</a>
+<a href="/barcelona/cafes/">Cafes</a>
+<a href="/barcelona/nightlife/">Nightlife</a>
+<a href="/barcelona/shopping/">More</a>
+</nav>
 </div>
 </header>
 
@@ -394,6 +444,8 @@ Explore highly rated hotels in Barcelona.
 Compare ratings and read a selection of current Google reviews
 directly on RatedMaps.
 </p>
+
+
 
 <div class="notice">
 Reviews are loaded from Google when you open this page.
@@ -448,7 +500,7 @@ Official website
 </div>
 
 <p class="review-count">
-18889 Google ratings
+18890 Google ratings
 </p>
 
 <p>Plaça Rosa Del Vents 1, Final, Pg. de Joan de Borbó, Ciutat Vella, 08039 Barcelona</p>
@@ -470,42 +522,6 @@ Official website
 <div
     class="google-reviews"
     data-place-id="ChIJJVBihbGjpBIRCy9-D3gM6Fk">
-    <p class="loading-reviews">Loading current Google reviews…</p>
-</div>
-
-</article>
-
-<article class="card">
-
-<h3>Generator Barcelona</h3>
-
-<div class="rating">
-★ 4.4
-</div>
-
-<p class="review-count">
-8750 Google ratings
-</p>
-
-<p>Carrer de Còrsega, 373, Gràcia, 08037 Barcelona</p>
-
-<a class="button"
-href="https://maps.google.com/?cid=14008889353207222339&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
-target="_blank"
-rel="noopener">
-Google Maps
-</a>
-
-<a class="button"
-href="https://staygenerator.com/hostels/barcelona?utm_source=google-my-business&amp;utm_medium=organic&amp;utm_campaign=hostel-Barcelona"
-target="_blank"
-rel="noopener nofollow">
-Official website
-</a>
-
-<div
-    class="google-reviews"
-    data-place-id="ChIJq3-mD5WipBIRQxCr-6SSacI">
     <p class="loading-reviews">Loading current Google reviews…</p>
 </div>
 
@@ -585,6 +601,42 @@ Official website
 
 <article class="card">
 
+<h3>Hotel Catalonia Atenas</h3>
+
+<div class="rating">
+★ 4.1
+</div>
+
+<p class="review-count">
+3550 Google ratings
+</p>
+
+<p>Avinguda Meridiana, 151, Sant Martí, 08026 Barcelona</p>
+
+<a class="button"
+href="https://maps.google.com/?cid=15581497430081649832&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
+target="_blank"
+rel="noopener">
+Google Maps
+</a>
+
+<a class="button"
+href="https://www.cataloniahotels.com/es/hotel/catalonia-atenas?mb=1&amp;utm_source=googlemaps&amp;utm_medium=organic&amp;utm_campaign=ATE"
+target="_blank"
+rel="noopener nofollow">
+Official website
+</a>
+
+<div
+    class="google-reviews"
+    data-place-id="ChIJlUPzhyijpBIRqLytvFuZPNg">
+    <p class="loading-reviews">Loading current Google reviews…</p>
+</div>
+
+</article>
+
+<article class="card">
+
 <h3>Hotel Catalonia Park Güell</h3>
 
 <div class="rating">
@@ -628,7 +680,7 @@ Official website
 </div>
 
 <p class="review-count">
-3367 Google ratings
+3368 Google ratings
 </p>
 
 <p>Carrer de la TV3, 2, 08970 Sant Joan Despí, Barcelona</p>
