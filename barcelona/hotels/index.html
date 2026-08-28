@@ -5,32 +5,54 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
 <title>Best Hotels in Barcelona – Ratings &amp; Reviews</title>
-<meta name="description" content="Discover highly rated hotels in Barcelona. Compare ratings and find places with RatedMaps.">
+<meta name="description" content="Discover highly rated hotels in Barcelona. Compare ratings and read selected Google reviews on RatedMaps.">
 
 <link rel="canonical" href="https://ratedmaps.com/barcelona/hotels/">
 
 <meta property="og:title" content="Best Hotels in Barcelona – Ratings &amp; Reviews">
-<meta property="og:description" content="Discover highly rated hotels in Barcelona. Compare ratings and find places with RatedMaps.">
+<meta property="og:description" content="Discover highly rated hotels in Barcelona. Compare ratings and read selected Google reviews on RatedMaps.">
 <meta property="og:url" content="https://ratedmaps.com/barcelona/hotels/">
 <meta property="og:type" content="website">
 
 <style>
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
-    background: #f5f5f5;
-    color: #161616;
+    background: #f4f4f4;
+    color: #171717;
 }
 
 header {
     background: #111;
     color: white;
-    padding: 24px;
+    padding: 22px 20px;
 }
 
-header a {
+.brand {
+    max-width: 1100px;
+    margin: auto;
+}
+
+.logo {
+    display: inline-block;
     color: white;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -1px;
     text-decoration: none;
+}
+
+.logo span {
+    font-weight: 400;
+}
+
+.tagline {
+    margin: 5px 0 0;
+    color: #ccc;
 }
 
 main {
@@ -41,15 +63,19 @@ main {
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit,minmax(310px,1fr));
+    gap: 22px;
 }
 
 .card {
     background: white;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 2px 10px rgba(0,0,0,.08);
+    border-radius: 14px;
+    padding: 21px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.08);
+}
+
+.card h3 {
+    margin-top: 0;
 }
 
 .rating {
@@ -57,18 +83,19 @@ main {
     font-weight: bold;
 }
 
-.reviews {
+.review-count {
     color: #666;
+    margin-top: 5px;
 }
 
 .button {
     display: inline-block;
-    margin-top: 12px;
-    padding: 10px 15px;
+    margin: 8px 5px 8px 0;
+    padding: 10px 14px;
     background: #111;
     color: white;
     text-decoration: none;
-    border-radius: 6px;
+    border-radius: 7px;
 }
 
 .category {
@@ -81,78 +108,300 @@ main {
     border-radius: 10px;
 }
 
-footer {
-    text-align: center;
-    padding: 30px;
+.google-reviews {
+    margin-top: 22px;
+    padding-top: 17px;
+    border-top: 1px solid #ddd;
+}
+
+.google-reviews h4 {
+    margin: 0 0 14px;
+}
+
+.review {
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.review:last-of-type {
+    border-bottom: 0;
+}
+
+.review-author {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.review-author img {
+    width: 38px;
+    height: 38px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.review-author a {
+    color: #111;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.review-meta {
+    color: #666;
+    font-size: 13px;
+    margin-top: 3px;
+}
+
+.review-text {
+    line-height: 1.5;
+    margin: 11px 0 7px;
+}
+
+.review-link,
+.all-reviews {
+    color: #174ea6;
+    font-size: 14px;
+}
+
+.all-reviews {
+    display: inline-block;
+    margin-top: 13px;
+}
+
+.google-attribution {
+    margin-top: 15px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #555;
+}
+
+.third-party-attribution {
+    font-size: 11px;
     color: #777;
 }
 
+.loading-reviews,
+.review-empty {
+    color: #777;
+    font-size: 14px;
+}
+
 .notice {
-    background: #fff;
+    background: white;
     padding: 15px;
     border-radius: 8px;
     margin: 20px 0;
     font-size: 14px;
 }
+
+footer {
+    text-align: center;
+    padding: 30px;
+    color: #777;
+}
 </style>
+
+
+<script>
+async function initRatedMapsReviews() {
+    try {
+        const { Place } = await google.maps.importLibrary("places");
+
+        const containers = document.querySelectorAll(".google-reviews");
+
+        for (const container of containers) {
+            const placeId = container.dataset.placeId;
+
+            if (!placeId) {
+                continue;
+            }
+
+            try {
+                const place = new Place({
+                    id: placeId,
+                    requestedLanguage: navigator.language || "en"
+                });
+
+                await place.fetchFields({
+                    fields: [
+                        "displayName",
+                        "reviews",
+                        "googleMapsLinks"
+                    ]
+                });
+
+                container.innerHTML = "";
+
+                const heading = document.createElement("h4");
+                heading.textContent = "Selected Google reviews";
+                container.appendChild(heading);
+
+                const reviews = place.reviews || [];
+
+                if (!reviews.length) {
+                    const empty = document.createElement("p");
+                    empty.className = "review-empty";
+                    empty.textContent =
+                        "No Google review text is currently available for this place.";
+                    container.appendChild(empty);
+                    continue;
+                }
+
+                for (const review of reviews.slice(0, 5)) {
+                    const box = document.createElement("div");
+                    box.className = "review";
+
+                    const header = document.createElement("div");
+                    header.className = "review-author";
+
+                    const attribution = review.authorAttribution;
+
+                    if (attribution && attribution.photoURI) {
+                        const photo = document.createElement("img");
+                        photo.src = attribution.photoURI;
+                        photo.alt = "";
+                        photo.loading = "lazy";
+                        photo.referrerPolicy = "no-referrer";
+                        header.appendChild(photo);
+                    }
+
+                    const authorArea = document.createElement("div");
+
+                    if (attribution) {
+                        if (attribution.uri) {
+                            const author = document.createElement("a");
+                            author.href = attribution.uri;
+                            author.target = "_blank";
+                            author.rel = "noopener";
+                            author.textContent =
+                                attribution.displayName || "Google Maps user";
+                            authorArea.appendChild(author);
+                        } else {
+                            const author = document.createElement("strong");
+                            author.textContent =
+                                attribution.displayName || "Google Maps user";
+                            authorArea.appendChild(author);
+                        }
+                    } else {
+                        const author = document.createElement("strong");
+                        author.textContent = "Google Maps user";
+                        authorArea.appendChild(author);
+                    }
+
+                    const meta = document.createElement("div");
+                    meta.className = "review-meta";
+
+                    const stars = review.rating
+                        ? "★".repeat(Math.round(review.rating))
+                        : "";
+
+                    const age =
+                        review.relativePublishTimeDescription || "";
+
+                    meta.textContent =
+                        stars + (stars && age ? " · " : "") + age;
+
+                    authorArea.appendChild(meta);
+                    header.appendChild(authorArea);
+                    box.appendChild(header);
+
+                    if (review.text) {
+                        const text = document.createElement("p");
+                        text.className = "review-text";
+                        text.textContent = review.text;
+                        box.appendChild(text);
+                    }
+
+                    if (review.googleMapsURI) {
+                        const original = document.createElement("a");
+                        original.className = "review-link";
+                        original.href = review.googleMapsURI;
+                        original.target = "_blank";
+                        original.rel = "noopener";
+                        original.textContent =
+                            "Read original review on Google Maps";
+                        box.appendChild(original);
+                    }
+
+                    container.appendChild(box);
+                }
+
+                const attributionLine = document.createElement("div");
+                attributionLine.className = "google-attribution";
+                attributionLine.textContent = "Reviews provided by Google Maps";
+                container.appendChild(attributionLine);
+
+                if (place.attributions && place.attributions.length) {
+                    for (const attribution of place.attributions) {
+                        const line = document.createElement("div");
+                        line.className = "third-party-attribution";
+                        line.textContent = attribution;
+                        container.appendChild(line);
+                    }
+                }
+
+                if (
+                    place.googleMapsLinks &&
+                    place.googleMapsLinks.reviewsURI
+                ) {
+                    const allReviews = document.createElement("a");
+                    allReviews.className = "all-reviews";
+                    allReviews.href = place.googleMapsLinks.reviewsURI;
+                    allReviews.target = "_blank";
+                    allReviews.rel = "noopener";
+                    allReviews.textContent =
+                        "See all reviews on Google Maps";
+                    container.appendChild(allReviews);
+                }
+
+            } catch (error) {
+                console.error(
+                    "Could not load reviews for place:",
+                    placeId,
+                    error
+                );
+
+                container.innerHTML =
+                    '<p class="review-empty">Reviews could not be loaded right now.</p>';
+            }
+        }
+
+    } catch (error) {
+        console.error("Google Places could not be initialized:", error);
+    }
+}
+
+window.initRatedMapsReviews = initRatedMapsReviews;
+</script>
 
 </head>
 
 <body>
 
 <header>
-<a href="/">
-<h1>RatedMaps</h1>
-</a>
-<p>Discover highly rated places.</p>
+<div class="brand">
+<a class="logo" href="/">Rated<span>Maps</span></a>
+<p class="tagline">Discover places through ratings and reviews.</p>
+</div>
 </header>
 
 <main>
 
-<h2>Best Hotels in Barcelona</h2>
+<h1>Best Hotels in Barcelona</h1>
 
 <p>
 Explore highly rated hotels in Barcelona.
-Results are organized using rating and rating-count information
-available through Google Maps Platform.
+Compare ratings and read a selection of current Google reviews
+directly on RatedMaps.
 </p>
 
 <div class="notice">
-Place information can change. Check Google Maps or the business
-website for current information.
+Reviews are loaded from Google when you open this page.
+The available review selection can therefore change over time.
+Use the Google Maps links for the complete and current review listing.
 </div>
 
 <div class="grid">
-
-<article class="card">
-
-<h3>El Palace Hotel Barcelona</h3>
-
-<div class="rating">
-★ 4.6
-</div>
-
-<p class="reviews">
-2792 Google ratings
-</p>
-
-<p>Gran Via de les Corts Catalanes, 668, Eixample, 08010 Barcelona</p>
-
-<a class="button"
-href="https://maps.google.com/?cid=14433805197554906917&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
-target="_blank"
-rel="noopener">
-View on Google Maps
-</a>
-
-<a class="button"
-href="https://www.hotelpalacebarcelona.com/"
-target="_blank"
-rel="noopener nofollow">
-Website
-</a>
-
-</article>
 
 <article class="card">
 
@@ -162,7 +411,7 @@ Website
 ★ 4.6
 </div>
 
-<p class="reviews">
+<p class="review-count">
 738 Google ratings
 </p>
 
@@ -172,45 +421,21 @@ Website
 href="https://maps.google.com/?cid=6447701783803994436&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
 target="_blank"
 rel="noopener">
-View on Google Maps
+Google Maps
 </a>
 
 <a class="button"
 href="https://hotelcasasagnier.com/"
 target="_blank"
 rel="noopener nofollow">
-Website
+Official website
 </a>
 
-</article>
-
-<article class="card">
-
-<h3>ME Barcelona</h3>
-
-<div class="rating">
-★ 4.5
+<div
+    class="google-reviews"
+    data-place-id="ChIJ__8D2JOipBIRRCFKaZzWelk">
+    <p class="loading-reviews">Loading current Google reviews…</p>
 </div>
-
-<p class="reviews">
-721 Google ratings
-</p>
-
-<p>Carrer de Casp, 1 - 13, Eixample, 08010 Barcelona</p>
-
-<a class="button"
-href="https://maps.google.com/?cid=2041837063033018603&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
-target="_blank"
-rel="noopener">
-View on Google Maps
-</a>
-
-<a class="button"
-href="https://www.melia.com/en/hotels/spain/barcelona/me-barcelona?utm_campaign=google&amp;utm_content=0825&amp;utm_medium=organic&amp;utm_source=directories"
-target="_blank"
-rel="noopener nofollow">
-Website
-</a>
 
 </article>
 
@@ -222,8 +447,8 @@ Website
 ★ 4.4
 </div>
 
-<p class="reviews">
-18887 Google ratings
+<p class="review-count">
+18889 Google ratings
 </p>
 
 <p>Plaça Rosa Del Vents 1, Final, Pg. de Joan de Borbó, Ciutat Vella, 08039 Barcelona</p>
@@ -232,15 +457,21 @@ Website
 href="https://maps.google.com/?cid=6478441773767995147&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
 target="_blank"
 rel="noopener">
-View on Google Maps
+Google Maps
 </a>
 
 <a class="button"
 href="https://www.marriott.com/en-us/hotels/bcnwh-w-barcelona/overview/?scid=f2ae0541-1279-4f24-b197-a979c79310b0"
 target="_blank"
 rel="noopener nofollow">
-Website
+Official website
 </a>
+
+<div
+    class="google-reviews"
+    data-place-id="ChIJJVBihbGjpBIRCy9-D3gM6Fk">
+    <p class="loading-reviews">Loading current Google reviews…</p>
+</div>
 
 </article>
 
@@ -252,7 +483,7 @@ Website
 ★ 4.4
 </div>
 
-<p class="reviews">
+<p class="review-count">
 8750 Google ratings
 </p>
 
@@ -262,15 +493,21 @@ Website
 href="https://maps.google.com/?cid=14008889353207222339&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
 target="_blank"
 rel="noopener">
-View on Google Maps
+Google Maps
 </a>
 
 <a class="button"
 href="https://staygenerator.com/hostels/barcelona?utm_source=google-my-business&amp;utm_medium=organic&amp;utm_campaign=hostel-Barcelona"
 target="_blank"
 rel="noopener nofollow">
-Website
+Official website
 </a>
+
+<div
+    class="google-reviews"
+    data-place-id="ChIJq3-mD5WipBIRQxCr-6SSacI">
+    <p class="loading-reviews">Loading current Google reviews…</p>
+</div>
 
 </article>
 
@@ -282,7 +519,7 @@ Website
 ★ 4.4
 </div>
 
-<p class="reviews">
+<p class="review-count">
 7997 Google ratings
 </p>
 
@@ -292,105 +529,21 @@ Website
 href="https://maps.google.com/?cid=8453879882223131010&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
 target="_blank"
 rel="noopener">
-View on Google Maps
+Google Maps
 </a>
 
 <a class="button"
 href="https://all.accor.com/lien_externe.svlt?goto=fiche_hotel&amp;code_hotel=5560&amp;merchantid=seo-maps-ES-5560&amp;sourceid=aw-cen&amp;utm_medium=seo%20maps&amp;utm_source=google%20Maps&amp;utm_campaign=seo%20maps"
 target="_blank"
 rel="noopener nofollow">
-Website
+Official website
 </a>
 
-</article>
-
-<article class="card">
-
-<h3>Barcelo Raval</h3>
-
-<div class="rating">
-★ 4.4
+<div
+    class="google-reviews"
+    data-place-id="ChIJL_SMmCOjpBIRghm7WfY2UnU">
+    <p class="loading-reviews">Loading current Google reviews…</p>
 </div>
-
-<p class="reviews">
-6300 Google ratings
-</p>
-
-<p>Rambla del Raval, 17, 21, Ciutat Vella, 08001 Barcelona</p>
-
-<a class="button"
-href="https://maps.google.com/?cid=10441726909769438109&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
-target="_blank"
-rel="noopener">
-View on Google Maps
-</a>
-
-<a class="button"
-href="https://www.barcelo.com/es-es/barcelo-raval/?utm_source=google&amp;utm_medium=organic&amp;utm_campaign=my_business&amp;utm_content=7289"
-target="_blank"
-rel="noopener nofollow">
-Website
-</a>
-
-</article>
-
-<article class="card">
-
-<h3>Hotel Barcelona Universal</h3>
-
-<div class="rating">
-★ 4.4
-</div>
-
-<p class="reviews">
-3358 Google ratings
-</p>
-
-<p>Avinguda del Paral·lel, 76-80, Ciutat Vella, 08001 Barcelona</p>
-
-<a class="button"
-href="https://maps.google.com/?cid=12751333730004890199&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
-target="_blank"
-rel="noopener">
-View on Google Maps
-</a>
-
-<a class="button"
-href="https://www.hotelbarcelonauniversal.com/"
-target="_blank"
-rel="noopener nofollow">
-Website
-</a>
-
-</article>
-
-<article class="card">
-
-<h3>ibis Barcelona Centro</h3>
-
-<div class="rating">
-★ 4.4
-</div>
-
-<p class="reviews">
-2440 Google ratings
-</p>
-
-<p>Hb004593, Carrer de Nàpols, 230, 232, Eixample, 08013 Barcelona</p>
-
-<a class="button"
-href="https://maps.google.com/?cid=12266264737034884303&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
-target="_blank"
-rel="noopener">
-View on Google Maps
-</a>
-
-<a class="button"
-href="https://all.accor.com/lien_externe.svlt?goto=fiche_hotel&amp;code_hotel=7567&amp;merchantid=seo-maps-ES-7567&amp;sourceid=aw-cen&amp;utm_medium=seo%20maps&amp;utm_source=google%20Maps&amp;utm_campaign=seo%20maps"
-target="_blank"
-rel="noopener nofollow">
-Website
-</a>
 
 </article>
 
@@ -402,7 +555,7 @@ Website
 ★ 4.2
 </div>
 
-<p class="reviews">
+<p class="review-count">
 6351 Google ratings
 </p>
 
@@ -412,105 +565,21 @@ Website
 href="https://maps.google.com/?cid=828080685180884631&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
 target="_blank"
 rel="noopener">
-View on Google Maps
+Google Maps
 </a>
 
 <a class="button"
 href="http://www.hotelbarcelonaprincess.com/"
 target="_blank"
 rel="noopener nofollow">
-Website
+Official website
 </a>
 
-</article>
-
-<article class="card">
-
-<h3>Sercotel Rosellón</h3>
-
-<div class="rating">
-★ 4.2
+<div
+    class="google-reviews"
+    data-place-id="ChIJAdWMNVejpBIRl5aR7f7ufQs">
+    <p class="loading-reviews">Loading current Google reviews…</p>
 </div>
-
-<p class="reviews">
-4172 Google ratings
-</p>
-
-<p>Carrer del Rosselló, 390, Eixample, 08025 Barcelona</p>
-
-<a class="button"
-href="https://maps.google.com/?cid=7409540680053264135&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
-target="_blank"
-rel="noopener">
-View on Google Maps
-</a>
-
-<a class="button"
-href="https://www.sercotelhoteles.com/es/hotel-rosellon?utm_source=google&amp;utm_medium=referral&amp;utm_campaign=metasearch-links"
-target="_blank"
-rel="noopener nofollow">
-Website
-</a>
-
-</article>
-
-<article class="card">
-
-<h3>SLS Barcelona</h3>
-
-<div class="rating">
-★ 4.2
-</div>
-
-<p class="reviews">
-966 Google ratings
-</p>
-
-<p>Port Forum, Carrer de la Pau, 2, 08930 Barcelona</p>
-
-<a class="button"
-href="https://maps.google.com/?cid=1076712743281641028&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
-target="_blank"
-rel="noopener">
-View on Google Maps
-</a>
-
-<a class="button"
-href="https://slshotels.com/barcelona/?utm_source=google&amp;utm_medium=organic&amp;utm_campaign=gmb-website&amp;utm_content=website_button"
-target="_blank"
-rel="noopener nofollow">
-Website
-</a>
-
-</article>
-
-<article class="card">
-
-<h3>Hotel Catalonia Atenas</h3>
-
-<div class="rating">
-★ 4.1
-</div>
-
-<p class="reviews">
-3550 Google ratings
-</p>
-
-<p>Avinguda Meridiana, 151, Sant Martí, 08026 Barcelona</p>
-
-<a class="button"
-href="https://maps.google.com/?cid=15581497430081649832&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
-target="_blank"
-rel="noopener">
-View on Google Maps
-</a>
-
-<a class="button"
-href="https://www.cataloniahotels.com/es/hotel/catalonia-atenas?mb=1&amp;utm_source=googlemaps&amp;utm_medium=organic&amp;utm_campaign=ATE"
-target="_blank"
-rel="noopener nofollow">
-Website
-</a>
 
 </article>
 
@@ -522,7 +591,7 @@ Website
 ★ 4
 </div>
 
-<p class="reviews">
+<p class="review-count">
 3563 Google ratings
 </p>
 
@@ -532,15 +601,21 @@ Website
 href="https://maps.google.com/?cid=9715662424794073693&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
 target="_blank"
 rel="noopener">
-View on Google Maps
+Google Maps
 </a>
 
 <a class="button"
 href="https://www.cataloniahotels.com/es/hotel/catalonia-park-guell?mb=1&amp;utm_source=googlemaps&amp;utm_medium=organic&amp;utm_campaign=RUB"
 target="_blank"
 rel="noopener nofollow">
-Website
+Official website
 </a>
+
+<div
+    class="google-reviews"
+    data-place-id="ChIJWXoMfAeYpBIRXQp243_31IY">
+    <p class="loading-reviews">Loading current Google reviews…</p>
+</div>
 
 </article>
 
@@ -552,7 +627,7 @@ Website
 ★ 4
 </div>
 
-<p class="reviews">
+<p class="review-count">
 3367 Google ratings
 </p>
 
@@ -562,15 +637,21 @@ Website
 href="https://maps.google.com/?cid=523300577565814593&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
 target="_blank"
 rel="noopener">
-View on Google Maps
+Google Maps
 </a>
 
 <a class="button"
 href="https://all.accor.com/lien_externe.svlt?goto=fiche_hotel&amp;code_hotel=3289&amp;merchantid=seo-maps-ES-3289&amp;sourceid=aw-cen&amp;utm_medium=seo%20maps&amp;utm_source=google%20Maps&amp;utm_campaign=seo%20maps"
 target="_blank"
 rel="noopener nofollow">
-Website
+Official website
 </a>
+
+<div
+    class="google-reviews"
+    data-place-id="ChIJ638l83yZpBIRQS-RTBojQwc">
+    <p class="loading-reviews">Loading current Google reviews…</p>
+</div>
 
 </article>
 
@@ -582,7 +663,7 @@ Website
 ★ 4
 </div>
 
-<p class="reviews">
+<p class="review-count">
 133 Google ratings
 </p>
 
@@ -592,45 +673,21 @@ Website
 href="https://maps.google.com/?cid=17587581685354348716&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
 target="_blank"
 rel="noopener">
-View on Google Maps
+Google Maps
 </a>
 
 <a class="button"
 href="http://www.factorysuites.com/"
 target="_blank"
 rel="noopener nofollow">
-Website
+Official website
 </a>
 
-</article>
-
-<article class="card">
-
-<h3>Apartments Sata Sagrada Família Àrea</h3>
-
-<div class="rating">
-★ 3.9
+<div
+    class="google-reviews"
+    data-place-id="ChIJ66p-5uuipBIRrEC2HVykE_Q">
+    <p class="loading-reviews">Loading current Google reviews…</p>
 </div>
-
-<p class="reviews">
-73 Google ratings
-</p>
-
-<p>Carrer de Ventalló, 48, Gràcia, 08025 Barcelona</p>
-
-<a class="button"
-href="https://maps.google.com/?cid=10634829417732180054&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
-target="_blank"
-rel="noopener">
-View on Google Maps
-</a>
-
-<a class="button"
-href="http://www.apartamentossata.com/"
-target="_blank"
-rel="noopener nofollow">
-Website
-</a>
 
 </article>
 
@@ -642,7 +699,7 @@ Website
 ★ 3.6
 </div>
 
-<p class="reviews">
+<p class="review-count">
 1431 Google ratings
 </p>
 
@@ -652,15 +709,21 @@ Website
 href="https://maps.google.com/?cid=13629442037788910736&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
 target="_blank"
 rel="noopener">
-View on Google Maps
+Google Maps
 </a>
 
 <a class="button"
 href="https://www.ilunionhotels.com/hoteles/ilunion-almirante?partner=5989&amp;sel=sel:nf-gmb:nm-organic:kwp-:nc-:fe-:fm-:mp-:id-5989"
 target="_blank"
 rel="noopener nofollow">
-Website
+Official website
 </a>
+
+<div
+    class="google-reviews"
+    data-place-id="ChIJLeQ8JPqipBIRkCQvTVKBJb0">
+    <p class="loading-reviews">Loading current Google reviews…</p>
+</div>
 
 </article>
 
@@ -672,7 +735,7 @@ Website
 ★ 3.5
 </div>
 
-<p class="reviews">
+<p class="review-count">
 840 Google ratings
 </p>
 
@@ -682,45 +745,21 @@ Website
 href="https://maps.google.com/?cid=1797040214564226069&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
 target="_blank"
 rel="noopener">
-View on Google Maps
+Google Maps
 </a>
 
 <a class="button"
 href="https://www.sohohoteles.com/itc-barcelona/"
 target="_blank"
 rel="noopener nofollow">
-Website
+Official website
 </a>
 
-</article>
-
-<article class="card">
-
-<h3>Hotel Annex</h3>
-
-<div class="rating">
-★ 3.3
+<div
+    class="google-reviews"
+    data-place-id="ChIJ3dqJWPOipBIRFUQx1I1e8Bg">
+    <p class="loading-reviews">Loading current Google reviews…</p>
 </div>
-
-<p class="reviews">
-141 Google ratings
-</p>
-
-<p>Carrer de Jaume I, 8, Sala Xavier Miserachs, Ciutat Vella, 08002 Barcelona</p>
-
-<a class="button"
-href="https://maps.google.com/?cid=1892074927994944482&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
-target="_blank"
-rel="noopener">
-View on Google Maps
-</a>
-
-<a class="button"
-href="http://www.hotelannex.es/es/hotel-annex-barcelona"
-target="_blank"
-rel="noopener nofollow">
-Website
-</a>
 
 </article>
 
@@ -731,6 +770,13 @@ Website
 <footer>
 RatedMaps.com — Independent place discovery portal.
 </footer>
+
+
+<script
+    async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPGg9UWnCosY1zpyHGUymh8naGmOT09GM&loading=async&libraries=places&callback=initRatedMapsReviews">
+</script>
+
 
 </body>
 </html>

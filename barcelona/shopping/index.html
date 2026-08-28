@@ -5,32 +5,54 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
 <title>Best Shopping in Barcelona – Ratings &amp; Reviews</title>
-<meta name="description" content="Discover highly rated shopping in Barcelona. Compare ratings and find places with RatedMaps.">
+<meta name="description" content="Discover highly rated shopping in Barcelona. Compare ratings and read selected Google reviews on RatedMaps.">
 
 <link rel="canonical" href="https://ratedmaps.com/barcelona/shopping/">
 
 <meta property="og:title" content="Best Shopping in Barcelona – Ratings &amp; Reviews">
-<meta property="og:description" content="Discover highly rated shopping in Barcelona. Compare ratings and find places with RatedMaps.">
+<meta property="og:description" content="Discover highly rated shopping in Barcelona. Compare ratings and read selected Google reviews on RatedMaps.">
 <meta property="og:url" content="https://ratedmaps.com/barcelona/shopping/">
 <meta property="og:type" content="website">
 
 <style>
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
-    background: #f5f5f5;
-    color: #161616;
+    background: #f4f4f4;
+    color: #171717;
 }
 
 header {
     background: #111;
     color: white;
-    padding: 24px;
+    padding: 22px 20px;
 }
 
-header a {
+.brand {
+    max-width: 1100px;
+    margin: auto;
+}
+
+.logo {
+    display: inline-block;
     color: white;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -1px;
     text-decoration: none;
+}
+
+.logo span {
+    font-weight: 400;
+}
+
+.tagline {
+    margin: 5px 0 0;
+    color: #ccc;
 }
 
 main {
@@ -41,15 +63,19 @@ main {
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit,minmax(310px,1fr));
+    gap: 22px;
 }
 
 .card {
     background: white;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 2px 10px rgba(0,0,0,.08);
+    border-radius: 14px;
+    padding: 21px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.08);
+}
+
+.card h3 {
+    margin-top: 0;
 }
 
 .rating {
@@ -57,18 +83,19 @@ main {
     font-weight: bold;
 }
 
-.reviews {
+.review-count {
     color: #666;
+    margin-top: 5px;
 }
 
 .button {
     display: inline-block;
-    margin-top: 12px;
-    padding: 10px 15px;
+    margin: 8px 5px 8px 0;
+    padding: 10px 14px;
     background: #111;
     color: white;
     text-decoration: none;
-    border-radius: 6px;
+    border-radius: 7px;
 }
 
 .category {
@@ -81,131 +108,300 @@ main {
     border-radius: 10px;
 }
 
-footer {
-    text-align: center;
-    padding: 30px;
+.google-reviews {
+    margin-top: 22px;
+    padding-top: 17px;
+    border-top: 1px solid #ddd;
+}
+
+.google-reviews h4 {
+    margin: 0 0 14px;
+}
+
+.review {
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.review:last-of-type {
+    border-bottom: 0;
+}
+
+.review-author {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.review-author img {
+    width: 38px;
+    height: 38px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.review-author a {
+    color: #111;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.review-meta {
+    color: #666;
+    font-size: 13px;
+    margin-top: 3px;
+}
+
+.review-text {
+    line-height: 1.5;
+    margin: 11px 0 7px;
+}
+
+.review-link,
+.all-reviews {
+    color: #174ea6;
+    font-size: 14px;
+}
+
+.all-reviews {
+    display: inline-block;
+    margin-top: 13px;
+}
+
+.google-attribution {
+    margin-top: 15px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #555;
+}
+
+.third-party-attribution {
+    font-size: 11px;
     color: #777;
 }
 
+.loading-reviews,
+.review-empty {
+    color: #777;
+    font-size: 14px;
+}
+
 .notice {
-    background: #fff;
+    background: white;
     padding: 15px;
     border-radius: 8px;
     margin: 20px 0;
     font-size: 14px;
 }
+
+footer {
+    text-align: center;
+    padding: 30px;
+    color: #777;
+}
 </style>
+
+
+<script>
+async function initRatedMapsReviews() {
+    try {
+        const { Place } = await google.maps.importLibrary("places");
+
+        const containers = document.querySelectorAll(".google-reviews");
+
+        for (const container of containers) {
+            const placeId = container.dataset.placeId;
+
+            if (!placeId) {
+                continue;
+            }
+
+            try {
+                const place = new Place({
+                    id: placeId,
+                    requestedLanguage: navigator.language || "en"
+                });
+
+                await place.fetchFields({
+                    fields: [
+                        "displayName",
+                        "reviews",
+                        "googleMapsLinks"
+                    ]
+                });
+
+                container.innerHTML = "";
+
+                const heading = document.createElement("h4");
+                heading.textContent = "Selected Google reviews";
+                container.appendChild(heading);
+
+                const reviews = place.reviews || [];
+
+                if (!reviews.length) {
+                    const empty = document.createElement("p");
+                    empty.className = "review-empty";
+                    empty.textContent =
+                        "No Google review text is currently available for this place.";
+                    container.appendChild(empty);
+                    continue;
+                }
+
+                for (const review of reviews.slice(0, 5)) {
+                    const box = document.createElement("div");
+                    box.className = "review";
+
+                    const header = document.createElement("div");
+                    header.className = "review-author";
+
+                    const attribution = review.authorAttribution;
+
+                    if (attribution && attribution.photoURI) {
+                        const photo = document.createElement("img");
+                        photo.src = attribution.photoURI;
+                        photo.alt = "";
+                        photo.loading = "lazy";
+                        photo.referrerPolicy = "no-referrer";
+                        header.appendChild(photo);
+                    }
+
+                    const authorArea = document.createElement("div");
+
+                    if (attribution) {
+                        if (attribution.uri) {
+                            const author = document.createElement("a");
+                            author.href = attribution.uri;
+                            author.target = "_blank";
+                            author.rel = "noopener";
+                            author.textContent =
+                                attribution.displayName || "Google Maps user";
+                            authorArea.appendChild(author);
+                        } else {
+                            const author = document.createElement("strong");
+                            author.textContent =
+                                attribution.displayName || "Google Maps user";
+                            authorArea.appendChild(author);
+                        }
+                    } else {
+                        const author = document.createElement("strong");
+                        author.textContent = "Google Maps user";
+                        authorArea.appendChild(author);
+                    }
+
+                    const meta = document.createElement("div");
+                    meta.className = "review-meta";
+
+                    const stars = review.rating
+                        ? "★".repeat(Math.round(review.rating))
+                        : "";
+
+                    const age =
+                        review.relativePublishTimeDescription || "";
+
+                    meta.textContent =
+                        stars + (stars && age ? " · " : "") + age;
+
+                    authorArea.appendChild(meta);
+                    header.appendChild(authorArea);
+                    box.appendChild(header);
+
+                    if (review.text) {
+                        const text = document.createElement("p");
+                        text.className = "review-text";
+                        text.textContent = review.text;
+                        box.appendChild(text);
+                    }
+
+                    if (review.googleMapsURI) {
+                        const original = document.createElement("a");
+                        original.className = "review-link";
+                        original.href = review.googleMapsURI;
+                        original.target = "_blank";
+                        original.rel = "noopener";
+                        original.textContent =
+                            "Read original review on Google Maps";
+                        box.appendChild(original);
+                    }
+
+                    container.appendChild(box);
+                }
+
+                const attributionLine = document.createElement("div");
+                attributionLine.className = "google-attribution";
+                attributionLine.textContent = "Reviews provided by Google Maps";
+                container.appendChild(attributionLine);
+
+                if (place.attributions && place.attributions.length) {
+                    for (const attribution of place.attributions) {
+                        const line = document.createElement("div");
+                        line.className = "third-party-attribution";
+                        line.textContent = attribution;
+                        container.appendChild(line);
+                    }
+                }
+
+                if (
+                    place.googleMapsLinks &&
+                    place.googleMapsLinks.reviewsURI
+                ) {
+                    const allReviews = document.createElement("a");
+                    allReviews.className = "all-reviews";
+                    allReviews.href = place.googleMapsLinks.reviewsURI;
+                    allReviews.target = "_blank";
+                    allReviews.rel = "noopener";
+                    allReviews.textContent =
+                        "See all reviews on Google Maps";
+                    container.appendChild(allReviews);
+                }
+
+            } catch (error) {
+                console.error(
+                    "Could not load reviews for place:",
+                    placeId,
+                    error
+                );
+
+                container.innerHTML =
+                    '<p class="review-empty">Reviews could not be loaded right now.</p>';
+            }
+        }
+
+    } catch (error) {
+        console.error("Google Places could not be initialized:", error);
+    }
+}
+
+window.initRatedMapsReviews = initRatedMapsReviews;
+</script>
 
 </head>
 
 <body>
 
 <header>
-<a href="/">
-<h1>RatedMaps</h1>
-</a>
-<p>Discover highly rated places.</p>
+<div class="brand">
+<a class="logo" href="/">Rated<span>Maps</span></a>
+<p class="tagline">Discover places through ratings and reviews.</p>
+</div>
 </header>
 
 <main>
 
-<h2>Best Shopping in Barcelona</h2>
+<h1>Best Shopping in Barcelona</h1>
 
 <p>
 Explore highly rated shopping in Barcelona.
-Results are organized using rating and rating-count information
-available through Google Maps Platform.
+Compare ratings and read a selection of current Google reviews
+directly on RatedMaps.
 </p>
 
 <div class="notice">
-Place information can change. Check Google Maps or the business
-website for current information.
+Reviews are loaded from Google when you open this page.
+The available review selection can therefore change over time.
+Use the Google Maps links for the complete and current review listing.
 </div>
 
 <div class="grid">
-
-<article class="card">
-
-<h3>Satisfyer | Geske Factory Outlet Barcelona &quot;Portaferrissa&quot;</h3>
-
-<div class="rating">
-★ 4.9
-</div>
-
-<p class="reviews">
-109 Google ratings
-</p>
-
-<p>Carrer de la Portaferrissa, 21, Ciutat Vella, 08002 Barcelona</p>
-
-<a class="button"
-href="https://maps.google.com/?cid=60935076480468057&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
-target="_blank"
-rel="noopener">
-View on Google Maps
-</a>
-
-<a class="button"
-href="https://www.satisfyer.com/es/satisfyer-stores-barcelona-portaferissa"
-target="_blank"
-rel="noopener nofollow">
-Website
-</a>
-
-</article>
-
-<article class="card">
-
-<h3>Westfield La Maquinista</h3>
-
-<div class="rating">
-★ 4.5
-</div>
-
-<p class="reviews">
-7129 Google ratings
-</p>
-
-<p>Carrer de São Paulo, Sant Andreu, 08030 Barcelona</p>
-
-<a class="button"
-href="https://maps.google.com/?cid=17700036453348283318&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
-target="_blank"
-rel="noopener">
-View on Google Maps
-</a>
-
-<a class="button"
-href="https://www.westfield.com/spain/lamaquinista"
-target="_blank"
-rel="noopener nofollow">
-Website
-</a>
-
-</article>
-
-<article class="card">
-
-<h3>Basar</h3>
-
-<div class="rating">
-★ 4.5
-</div>
-
-<p class="reviews">
-14 Google ratings
-</p>
-
-<p>Avinguda Meridiana, encantes carrer, 69, A p 275, Eixample, 08018 Barcelona</p>
-
-<a class="button"
-href="https://maps.google.com/?cid=5973742709026256922&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
-target="_blank"
-rel="noopener">
-View on Google Maps
-</a>
-
-</article>
 
 <article class="card">
 
@@ -215,7 +411,7 @@ View on Google Maps
 ★ 4.4
 </div>
 
-<p class="reviews">
+<p class="review-count">
 76215 Google ratings
 </p>
 
@@ -225,15 +421,21 @@ View on Google Maps
 href="https://maps.google.com/?cid=1995543205765434668&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
 target="_blank"
 rel="noopener">
-View on Google Maps
+Google Maps
 </a>
 
 <a class="button"
 href="https://www.westfield.com/es/spain/lamaquinista?utm_source=google&amp;utm_medium=GMB"
 target="_blank"
 rel="noopener nofollow">
-Website
+Official website
 </a>
+
+<div
+    class="google-reviews"
+    data-place-id="ChIJncfMg-m8pBIRLM2XCfmXsRs">
+    <p class="loading-reviews">Loading current Google reviews…</p>
+</div>
 
 </article>
 
@@ -245,7 +447,7 @@ Website
 ★ 4.4
 </div>
 
-<p class="reviews">
+<p class="review-count">
 10689 Google ratings
 </p>
 
@@ -255,15 +457,21 @@ Website
 href="https://maps.google.com/?cid=15034086250937363525&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
 target="_blank"
 rel="noopener">
-View on Google Maps
+Google Maps
 </a>
 
 <a class="button"
 href="https://instagram.com/galeriesmalda"
 target="_blank"
 rel="noopener nofollow">
-Website
+Official website
 </a>
+
+<div
+    class="google-reviews"
+    data-place-id="ChIJx1xAnPeipBIRRay0jcrNo9A">
+    <p class="loading-reviews">Loading current Google reviews…</p>
+</div>
 
 </article>
 
@@ -275,7 +483,7 @@ Website
 ★ 4.3
 </div>
 
-<p class="reviews">
+<p class="review-count">
 66923 Google ratings
 </p>
 
@@ -285,15 +493,21 @@ Website
 href="https://maps.google.com/?cid=14955246557000185265&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
 target="_blank"
 rel="noopener">
-View on Google Maps
+Google Maps
 </a>
 
 <a class="button"
 href="https://www.diagonalmarcentre.es/?utm_source=gmb&amp;utm_medium=btnSitioWeb&amp;utm_campaign=seolocal"
 target="_blank"
 rel="noopener nofollow">
-Website
+Official website
 </a>
+
+<div
+    class="google-reviews"
+    data-place-id="ChIJmxv3gVCjpBIRsTVh3oG1i88">
+    <p class="loading-reviews">Loading current Google reviews…</p>
+</div>
 
 </article>
 
@@ -305,7 +519,7 @@ Website
 ★ 4.3
 </div>
 
-<p class="reviews">
+<p class="review-count">
 48303 Google ratings
 </p>
 
@@ -315,15 +529,21 @@ Website
 href="https://maps.google.com/?cid=16101405295672945924&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
 target="_blank"
 rel="noopener">
-View on Google Maps
+Google Maps
 </a>
 
 <a class="button"
 href="https://lilla.com/?utm_source=googlemybusiness&amp;utm_medium=GMB"
 target="_blank"
 rel="noopener nofollow">
-Website
+Official website
 </a>
+
+<div
+    class="google-reviews"
+    data-place-id="ChIJz8AiynqYpBIRBO0tuc6uc98">
+    <p class="loading-reviews">Loading current Google reviews…</p>
+</div>
 
 </article>
 
@@ -335,8 +555,8 @@ Website
 ★ 4.3
 </div>
 
-<p class="reviews">
-47577 Google ratings
+<p class="review-count">
+47578 Google ratings
 </p>
 
 <p>Avinguda de la Granvia de l’Hospitalet, 75, 08908 L&#x27;Hospitalet de Llobregat, Barcelona</p>
@@ -345,15 +565,21 @@ Website
 href="https://maps.google.com/?cid=2200634889620515659&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
 target="_blank"
 rel="noopener">
-View on Google Maps
+Google Maps
 </a>
 
 <a class="button"
 href="http://www.granvia2.com/"
 target="_blank"
 rel="noopener nofollow">
-Website
+Official website
 </a>
+
+<div
+    class="google-reviews"
+    data-place-id="ChIJVcGZub2YpBIRS2spzMU5ih4">
+    <p class="loading-reviews">Loading current Google reviews…</p>
+</div>
 
 </article>
 
@@ -365,7 +591,7 @@ Website
 ★ 4.3
 </div>
 
-<p class="reviews">
+<p class="review-count">
 45483 Google ratings
 </p>
 
@@ -375,15 +601,21 @@ Website
 href="https://maps.google.com/?cid=8376237495498452818&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
 target="_blank"
 rel="noopener">
-View on Google Maps
+Google Maps
 </a>
 
 <a class="button"
 href="https://www.westfield.com/es/spain/glories?utm_source=google&amp;utm_medium=GMB"
 target="_blank"
 rel="noopener nofollow">
-Website
+Official website
 </a>
+
+<div
+    class="google-reviews"
+    data-place-id="ChIJLSzAdySjpBIRUi9-eZ9fPnQ">
+    <p class="loading-reviews">Loading current Google reviews…</p>
+</div>
 
 </article>
 
@@ -395,7 +627,7 @@ Website
 ★ 4.2
 </div>
 
-<p class="reviews">
+<p class="review-count">
 71704 Google ratings
 </p>
 
@@ -405,15 +637,21 @@ Website
 href="https://maps.google.com/?cid=2595632837171430877&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
 target="_blank"
 rel="noopener">
-View on Google Maps
+Google Maps
 </a>
 
 <a class="button"
 href="http://www.arenasdebarcelona.com/"
 target="_blank"
 rel="noopener nofollow">
-Website
+Official website
 </a>
+
+<div
+    class="google-reviews"
+    data-place-id="ChIJcRlVRnmipBIR3UXxKlCKBSQ">
+    <p class="loading-reviews">Loading current Google reviews…</p>
+</div>
 
 </article>
 
@@ -425,7 +663,7 @@ Website
 ★ 4.2
 </div>
 
-<p class="reviews">
+<p class="review-count">
 55746 Google ratings
 </p>
 
@@ -435,15 +673,21 @@ Website
 href="https://maps.google.com/?cid=14476308834028594614&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
 target="_blank"
 rel="noopener">
-View on Google Maps
+Google Maps
 </a>
 
 <a class="button"
 href="https://www.elcorteingles.es/centroscomerciales/es/eci/centros/centro-comercial-placa-de-catalunya"
 target="_blank"
 rel="noopener nofollow">
-Website
+Official website
 </a>
+
+<div
+    class="google-reviews"
+    data-place-id="ChIJJbiSbfGipBIRtqUfjy8u5sg">
+    <p class="loading-reviews">Loading current Google reviews…</p>
+</div>
 
 </article>
 
@@ -455,7 +699,7 @@ Website
 ★ 4.2
 </div>
 
-<p class="reviews">
+<p class="review-count">
 39274 Google ratings
 </p>
 
@@ -465,45 +709,21 @@ Website
 href="https://maps.google.com/?cid=15410947330420916916&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
 target="_blank"
 rel="noopener">
-View on Google Maps
+Google Maps
 </a>
 
 <a class="button"
 href="https://maremagnum.klepierre.es/"
 target="_blank"
 rel="noopener nofollow">
-Website
+Official website
 </a>
 
-</article>
-
-<article class="card">
-
-<h3>Outlet El Corte Inglés Can Dragó</h3>
-
-<div class="rating">
-★ 4.2
+<div
+    class="google-reviews"
+    data-place-id="ChIJ5xgjZFOipBIRtEL-QfKu3tU">
+    <p class="loading-reviews">Loading current Google reviews…</p>
 </div>
-
-<p class="reviews">
-3390 Google ratings
-</p>
-
-<p>Pº de Andreu Nin, 51, Nou Barris, 08016 Barcelona</p>
-
-<a class="button"
-href="https://maps.google.com/?cid=16991774091941236902&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
-target="_blank"
-rel="noopener">
-View on Google Maps
-</a>
-
-<a class="button"
-href="https://www.elcorteingles.es/centroscomerciales/es/outlet/centros/outlet-can-drago"
-target="_blank"
-rel="noopener nofollow">
-Website
-</a>
 
 </article>
 
@@ -515,7 +735,7 @@ Website
 ★ 4.1
 </div>
 
-<p class="reviews">
+<p class="review-count">
 29043 Google ratings
 </p>
 
@@ -525,181 +745,21 @@ Website
 href="https://maps.google.com/?cid=13236798818438769239&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
 target="_blank"
 rel="noopener">
-View on Google Maps
+Google Maps
 </a>
 
 <a class="button"
 href="https://www.elcorteingles.es/centroscomerciales/es/eci/centros/centro-comercial-diagonal"
 target="_blank"
 rel="noopener nofollow">
-Website
+Official website
 </a>
 
-</article>
-
-<article class="card">
-
-<h3>El Corte Inglés | Cornellà</h3>
-
-<div class="rating">
-★ 4.1
+<div
+    class="google-reviews"
+    data-place-id="ChIJm-HbM2WYpBIRV2pa0GSOsrc">
+    <p class="loading-reviews">Loading current Google reviews…</p>
 </div>
-
-<p class="reviews">
-20324 Google ratings
-</p>
-
-<p>Carrer de Salvador Dalí, 15-19, 08940 Cornellà de Llobregat, Barcelona</p>
-
-<a class="button"
-href="https://maps.google.com/?cid=7492430262681687925&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
-target="_blank"
-rel="noopener">
-View on Google Maps
-</a>
-
-<a class="button"
-href="https://www.elcorteingles.es/centroscomerciales/es/eci/centros/centro-comercial-salvador-dali"
-target="_blank"
-rel="noopener nofollow">
-Website
-</a>
-
-</article>
-
-<article class="card">
-
-<h3>El Corte Inglés Can Dragó</h3>
-
-<div class="rating">
-★ 4.1
-</div>
-
-<p class="reviews">
-15410 Google ratings
-</p>
-
-<p>Pº de Andreu Nin, 51, Nou Barris, 08016 Barcelona</p>
-
-<a class="button"
-href="https://maps.google.com/?cid=14288835675125425429&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
-target="_blank"
-rel="noopener">
-View on Google Maps
-</a>
-
-<a class="button"
-href="https://www.elcorteingles.es/centroscomerciales/es/eci/centros/centro-comercial-can-drago"
-target="_blank"
-rel="noopener nofollow">
-Website
-</a>
-
-</article>
-
-<article class="card">
-
-<h3>CC Moda Shopping Port Olímpic</h3>
-
-<div class="rating">
-★ 4.1
-</div>
-
-<p class="reviews">
-526 Google ratings
-</p>
-
-<p>Carrer de la Marina, Sant Martí, 08005 Barcelona</p>
-
-<a class="button"
-href="https://maps.google.com/?cid=16665523483971272771&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
-target="_blank"
-rel="noopener">
-View on Google Maps
-</a>
-
-</article>
-
-<article class="card">
-
-<h3>La Rambla</h3>
-
-<div class="rating">
-★ 4.1
-</div>
-
-<p class="reviews">
-26 Google ratings
-</p>
-
-<p>La Rambla, Ciutat Vella, 08002 Barcelona</p>
-
-<a class="button"
-href="https://maps.google.com/?cid=1988403231194380070&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
-target="_blank"
-rel="noopener">
-View on Google Maps
-</a>
-
-</article>
-
-<article class="card">
-
-<h3>Centre Comercial El Triangle</h3>
-
-<div class="rating">
-★ 4
-</div>
-
-<p class="reviews">
-9874 Google ratings
-</p>
-
-<p>Pl. de Catalunya, 1, 4, Eixample, 08002 Barcelona</p>
-
-<a class="button"
-href="https://maps.google.com/?cid=12819739954908987567&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
-target="_blank"
-rel="noopener">
-View on Google Maps
-</a>
-
-<a class="button"
-href="http://www.eltriangle.es/"
-target="_blank"
-rel="noopener nofollow">
-Website
-</a>
-
-</article>
-
-<article class="card">
-
-<h3>Centre Comercial &quot;El Centre de la Vila&quot;</h3>
-
-<div class="rating">
-★ 3.7
-</div>
-
-<p class="reviews">
-5688 Google ratings
-</p>
-
-<p>Carrer de Salvador Espriu, 61, Sant Martí, 08005 Barcelona</p>
-
-<a class="button"
-href="https://maps.google.com/?cid=15761749078290267799&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
-target="_blank"
-rel="noopener">
-View on Google Maps
-</a>
-
-<a class="button"
-href="http://www.elcentredelavila.es/"
-target="_blank"
-rel="noopener nofollow">
-Website
-</a>
 
 </article>
 
@@ -710,6 +770,13 @@ Website
 <footer>
 RatedMaps.com — Independent place discovery portal.
 </footer>
+
+
+<script
+    async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPGg9UWnCosY1zpyHGUymh8naGmOT09GM&loading=async&libraries=places&callback=initRatedMapsReviews">
+</script>
+
 
 </body>
 </html>

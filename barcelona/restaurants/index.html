@@ -5,32 +5,54 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
 <title>Best Restaurants in Barcelona – Ratings &amp; Reviews</title>
-<meta name="description" content="Discover highly rated restaurants in Barcelona. Compare ratings and find places with RatedMaps.">
+<meta name="description" content="Discover highly rated restaurants in Barcelona. Compare ratings and read selected Google reviews on RatedMaps.">
 
 <link rel="canonical" href="https://ratedmaps.com/barcelona/restaurants/">
 
 <meta property="og:title" content="Best Restaurants in Barcelona – Ratings &amp; Reviews">
-<meta property="og:description" content="Discover highly rated restaurants in Barcelona. Compare ratings and find places with RatedMaps.">
+<meta property="og:description" content="Discover highly rated restaurants in Barcelona. Compare ratings and read selected Google reviews on RatedMaps.">
 <meta property="og:url" content="https://ratedmaps.com/barcelona/restaurants/">
 <meta property="og:type" content="website">
 
 <style>
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
-    background: #f5f5f5;
-    color: #161616;
+    background: #f4f4f4;
+    color: #171717;
 }
 
 header {
     background: #111;
     color: white;
-    padding: 24px;
+    padding: 22px 20px;
 }
 
-header a {
+.brand {
+    max-width: 1100px;
+    margin: auto;
+}
+
+.logo {
+    display: inline-block;
     color: white;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -1px;
     text-decoration: none;
+}
+
+.logo span {
+    font-weight: 400;
+}
+
+.tagline {
+    margin: 5px 0 0;
+    color: #ccc;
 }
 
 main {
@@ -41,15 +63,19 @@ main {
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit,minmax(310px,1fr));
+    gap: 22px;
 }
 
 .card {
     background: white;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 2px 10px rgba(0,0,0,.08);
+    border-radius: 14px;
+    padding: 21px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.08);
+}
+
+.card h3 {
+    margin-top: 0;
 }
 
 .rating {
@@ -57,18 +83,19 @@ main {
     font-weight: bold;
 }
 
-.reviews {
+.review-count {
     color: #666;
+    margin-top: 5px;
 }
 
 .button {
     display: inline-block;
-    margin-top: 12px;
-    padding: 10px 15px;
+    margin: 8px 5px 8px 0;
+    padding: 10px 14px;
     background: #111;
     color: white;
     text-decoration: none;
-    border-radius: 6px;
+    border-radius: 7px;
 }
 
 .category {
@@ -81,78 +108,300 @@ main {
     border-radius: 10px;
 }
 
-footer {
-    text-align: center;
-    padding: 30px;
+.google-reviews {
+    margin-top: 22px;
+    padding-top: 17px;
+    border-top: 1px solid #ddd;
+}
+
+.google-reviews h4 {
+    margin: 0 0 14px;
+}
+
+.review {
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.review:last-of-type {
+    border-bottom: 0;
+}
+
+.review-author {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.review-author img {
+    width: 38px;
+    height: 38px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.review-author a {
+    color: #111;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.review-meta {
+    color: #666;
+    font-size: 13px;
+    margin-top: 3px;
+}
+
+.review-text {
+    line-height: 1.5;
+    margin: 11px 0 7px;
+}
+
+.review-link,
+.all-reviews {
+    color: #174ea6;
+    font-size: 14px;
+}
+
+.all-reviews {
+    display: inline-block;
+    margin-top: 13px;
+}
+
+.google-attribution {
+    margin-top: 15px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #555;
+}
+
+.third-party-attribution {
+    font-size: 11px;
     color: #777;
 }
 
+.loading-reviews,
+.review-empty {
+    color: #777;
+    font-size: 14px;
+}
+
 .notice {
-    background: #fff;
+    background: white;
     padding: 15px;
     border-radius: 8px;
     margin: 20px 0;
     font-size: 14px;
 }
+
+footer {
+    text-align: center;
+    padding: 30px;
+    color: #777;
+}
 </style>
+
+
+<script>
+async function initRatedMapsReviews() {
+    try {
+        const { Place } = await google.maps.importLibrary("places");
+
+        const containers = document.querySelectorAll(".google-reviews");
+
+        for (const container of containers) {
+            const placeId = container.dataset.placeId;
+
+            if (!placeId) {
+                continue;
+            }
+
+            try {
+                const place = new Place({
+                    id: placeId,
+                    requestedLanguage: navigator.language || "en"
+                });
+
+                await place.fetchFields({
+                    fields: [
+                        "displayName",
+                        "reviews",
+                        "googleMapsLinks"
+                    ]
+                });
+
+                container.innerHTML = "";
+
+                const heading = document.createElement("h4");
+                heading.textContent = "Selected Google reviews";
+                container.appendChild(heading);
+
+                const reviews = place.reviews || [];
+
+                if (!reviews.length) {
+                    const empty = document.createElement("p");
+                    empty.className = "review-empty";
+                    empty.textContent =
+                        "No Google review text is currently available for this place.";
+                    container.appendChild(empty);
+                    continue;
+                }
+
+                for (const review of reviews.slice(0, 5)) {
+                    const box = document.createElement("div");
+                    box.className = "review";
+
+                    const header = document.createElement("div");
+                    header.className = "review-author";
+
+                    const attribution = review.authorAttribution;
+
+                    if (attribution && attribution.photoURI) {
+                        const photo = document.createElement("img");
+                        photo.src = attribution.photoURI;
+                        photo.alt = "";
+                        photo.loading = "lazy";
+                        photo.referrerPolicy = "no-referrer";
+                        header.appendChild(photo);
+                    }
+
+                    const authorArea = document.createElement("div");
+
+                    if (attribution) {
+                        if (attribution.uri) {
+                            const author = document.createElement("a");
+                            author.href = attribution.uri;
+                            author.target = "_blank";
+                            author.rel = "noopener";
+                            author.textContent =
+                                attribution.displayName || "Google Maps user";
+                            authorArea.appendChild(author);
+                        } else {
+                            const author = document.createElement("strong");
+                            author.textContent =
+                                attribution.displayName || "Google Maps user";
+                            authorArea.appendChild(author);
+                        }
+                    } else {
+                        const author = document.createElement("strong");
+                        author.textContent = "Google Maps user";
+                        authorArea.appendChild(author);
+                    }
+
+                    const meta = document.createElement("div");
+                    meta.className = "review-meta";
+
+                    const stars = review.rating
+                        ? "★".repeat(Math.round(review.rating))
+                        : "";
+
+                    const age =
+                        review.relativePublishTimeDescription || "";
+
+                    meta.textContent =
+                        stars + (stars && age ? " · " : "") + age;
+
+                    authorArea.appendChild(meta);
+                    header.appendChild(authorArea);
+                    box.appendChild(header);
+
+                    if (review.text) {
+                        const text = document.createElement("p");
+                        text.className = "review-text";
+                        text.textContent = review.text;
+                        box.appendChild(text);
+                    }
+
+                    if (review.googleMapsURI) {
+                        const original = document.createElement("a");
+                        original.className = "review-link";
+                        original.href = review.googleMapsURI;
+                        original.target = "_blank";
+                        original.rel = "noopener";
+                        original.textContent =
+                            "Read original review on Google Maps";
+                        box.appendChild(original);
+                    }
+
+                    container.appendChild(box);
+                }
+
+                const attributionLine = document.createElement("div");
+                attributionLine.className = "google-attribution";
+                attributionLine.textContent = "Reviews provided by Google Maps";
+                container.appendChild(attributionLine);
+
+                if (place.attributions && place.attributions.length) {
+                    for (const attribution of place.attributions) {
+                        const line = document.createElement("div");
+                        line.className = "third-party-attribution";
+                        line.textContent = attribution;
+                        container.appendChild(line);
+                    }
+                }
+
+                if (
+                    place.googleMapsLinks &&
+                    place.googleMapsLinks.reviewsURI
+                ) {
+                    const allReviews = document.createElement("a");
+                    allReviews.className = "all-reviews";
+                    allReviews.href = place.googleMapsLinks.reviewsURI;
+                    allReviews.target = "_blank";
+                    allReviews.rel = "noopener";
+                    allReviews.textContent =
+                        "See all reviews on Google Maps";
+                    container.appendChild(allReviews);
+                }
+
+            } catch (error) {
+                console.error(
+                    "Could not load reviews for place:",
+                    placeId,
+                    error
+                );
+
+                container.innerHTML =
+                    '<p class="review-empty">Reviews could not be loaded right now.</p>';
+            }
+        }
+
+    } catch (error) {
+        console.error("Google Places could not be initialized:", error);
+    }
+}
+
+window.initRatedMapsReviews = initRatedMapsReviews;
+</script>
 
 </head>
 
 <body>
 
 <header>
-<a href="/">
-<h1>RatedMaps</h1>
-</a>
-<p>Discover highly rated places.</p>
+<div class="brand">
+<a class="logo" href="/">Rated<span>Maps</span></a>
+<p class="tagline">Discover places through ratings and reviews.</p>
+</div>
 </header>
 
 <main>
 
-<h2>Best Restaurants in Barcelona</h2>
+<h1>Best Restaurants in Barcelona</h1>
 
 <p>
 Explore highly rated restaurants in Barcelona.
-Results are organized using rating and rating-count information
-available through Google Maps Platform.
+Compare ratings and read a selection of current Google reviews
+directly on RatedMaps.
 </p>
 
 <div class="notice">
-Place information can change. Check Google Maps or the business
-website for current information.
+Reviews are loaded from Google when you open this page.
+The available review selection can therefore change over time.
+Use the Google Maps links for the complete and current review listing.
 </div>
 
 <div class="grid">
-
-<article class="card">
-
-<h3>Prado de Flores Restaurant</h3>
-
-<div class="rating">
-★ 4.8
-</div>
-
-<p class="reviews">
-14542 Google ratings
-</p>
-
-<p>Carrer de Santa Anna, 11, Ciutat Vella, 08002 Barcelona</p>
-
-<a class="button"
-href="https://maps.google.com/?cid=7127055948886299275&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
-target="_blank"
-rel="noopener">
-View on Google Maps
-</a>
-
-<a class="button"
-href="https://pradodeflores.es/"
-target="_blank"
-rel="noopener nofollow">
-Website
-</a>
-
-</article>
 
 <article class="card">
 
@@ -162,7 +411,7 @@ Website
 ★ 4.8
 </div>
 
-<p class="reviews">
+<p class="review-count">
 11483 Google ratings
 </p>
 
@@ -172,75 +421,21 @@ Website
 href="https://maps.google.com/?cid=604710576804751107&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
 target="_blank"
 rel="noopener">
-View on Google Maps
+Google Maps
 </a>
 
 <a class="button"
 href="https://reservation.dish.co/widget/hydra-f784ff55-a585-48a8-8343-48eaf7885b96"
 target="_blank"
 rel="noopener nofollow">
-Website
+Official website
 </a>
 
-</article>
-
-<article class="card">
-
-<h3>The Steak house</h3>
-
-<div class="rating">
-★ 4.8
+<div
+    class="google-reviews"
+    data-place-id="ChIJZ45huwCjpBIRA2de0hBdZAg">
+    <p class="loading-reviews">Loading current Google reviews…</p>
 </div>
-
-<p class="reviews">
-9670 Google ratings
-</p>
-
-<p>C/ de la Freneria, 5, Ciutat Vella, 08002 Barcelona</p>
-
-<a class="button"
-href="https://maps.google.com/?cid=12365525221678402846&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
-target="_blank"
-rel="noopener">
-View on Google Maps
-</a>
-
-<a class="button"
-href="http://grillrestaurante.com/"
-target="_blank"
-rel="noopener nofollow">
-Website
-</a>
-
-</article>
-
-<article class="card">
-
-<h3>Barcelona Grill Steak House</h3>
-
-<div class="rating">
-★ 4.8
-</div>
-
-<p class="reviews">
-7626 Google ratings
-</p>
-
-<p>Carrer del Rec Comtal, 7, Ciutat Vella, 08003 Barcelona</p>
-
-<a class="button"
-href="https://maps.google.com/?cid=595211394182851103&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
-target="_blank"
-rel="noopener">
-View on Google Maps
-</a>
-
-<a class="button"
-href="https://go.nordqr.com/barcelona-grill-steak-house/"
-target="_blank"
-rel="noopener nofollow">
-Website
-</a>
 
 </article>
 
@@ -252,7 +447,7 @@ Website
 ★ 4.8
 </div>
 
-<p class="reviews">
+<p class="review-count">
 5176 Google ratings
 </p>
 
@@ -262,15 +457,21 @@ Website
 href="https://maps.google.com/?cid=13898587554268064603&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
 target="_blank"
 rel="noopener">
-View on Google Maps
+Google Maps
 </a>
 
 <a class="button"
 href="http://www.vianabcn.com/?utm_source=google&amp;utm_medium=organic&amp;utm_campaign=gmb"
 target="_blank"
 rel="noopener nofollow">
-Website
+Official website
 </a>
+
+<div
+    class="google-reviews"
+    data-place-id="ChIJoW3KxVeipBIRWyvQI76z4cA">
+    <p class="loading-reviews">Loading current Google reviews…</p>
+</div>
 
 </article>
 
@@ -282,7 +483,7 @@ Website
 ★ 4.8
 </div>
 
-<p class="reviews">
+<p class="review-count">
 3790 Google ratings
 </p>
 
@@ -292,15 +493,21 @@ Website
 href="https://maps.google.com/?cid=14810774391065622931&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
 target="_blank"
 rel="noopener">
-View on Google Maps
+Google Maps
 </a>
 
 <a class="button"
 href="http://www.disfrutarbarcelona.com/"
 target="_blank"
 rel="noopener nofollow">
-Website
+Official website
 </a>
+
+<div
+    class="google-reviews"
+    data-place-id="ChIJTSzGu4WipBIRkznre9Zwis0">
+    <p class="loading-reviews">Loading current Google reviews…</p>
+</div>
 
 </article>
 
@@ -312,8 +519,8 @@ Website
 ★ 4.8
 </div>
 
-<p class="reviews">
-3368 Google ratings
+<p class="review-count">
+3369 Google ratings
 </p>
 
 <p>Plaça Portal de la Pau, 4, Ciutat Vella, 08002 Barcelona</p>
@@ -322,75 +529,21 @@ Website
 href="https://maps.google.com/?cid=116052914911791316&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
 target="_blank"
 rel="noopener">
-View on Google Maps
+Google Maps
 </a>
 
 <a class="button"
 href="https://thegrillbarcelona.es/"
 target="_blank"
 rel="noopener nofollow">
-Website
+Official website
 </a>
 
-</article>
-
-<article class="card">
-
-<h3>RAO Restaurant</h3>
-
-<div class="rating">
-★ 4.8
+<div
+    class="google-reviews"
+    data-place-id="ChIJe4hdggijpBIR1Eh34IJNnAE">
+    <p class="loading-reviews">Loading current Google reviews…</p>
 </div>
-
-<p class="reviews">
-2753 Google ratings
-</p>
-
-<p>Carrer de les Sitges, 3, Ciutat Vella, 08001 Barcelona</p>
-
-<a class="button"
-href="https://maps.google.com/?cid=4165867038568864514&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
-target="_blank"
-rel="noopener">
-View on Google Maps
-</a>
-
-<a class="button"
-href="https://raobcn.com/"
-target="_blank"
-rel="noopener nofollow">
-Website
-</a>
-
-</article>
-
-<article class="card">
-
-<h3>Amades Restaurant</h3>
-
-<div class="rating">
-★ 4.8
-</div>
-
-<p class="reviews">
-2000 Google ratings
-</p>
-
-<p>Carrer dels Banys Nous, 8, Loc, Ciutat Vella, 08002 Barcelona</p>
-
-<a class="button"
-href="https://maps.google.com/?cid=1035370980938475198&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
-target="_blank"
-rel="noopener">
-View on Google Maps
-</a>
-
-<a class="button"
-href="https://www.instagram.com/amadesrestaurant/"
-target="_blank"
-rel="noopener nofollow">
-Website
-</a>
 
 </article>
 
@@ -402,8 +555,8 @@ Website
 ★ 4.7
 </div>
 
-<p class="reviews">
-36568 Google ratings
+<p class="review-count">
+36571 Google ratings
 </p>
 
 <p>Carrer dels Escudellers, 33, Ciutat Vella, 08002 Barcelona</p>
@@ -412,15 +565,21 @@ Website
 href="https://maps.google.com/?cid=7009296806988406449&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
 target="_blank"
 rel="noopener">
-View on Google Maps
+Google Maps
 </a>
 
 <a class="button"
 href="https://www.colomrestaurant.com/"
 target="_blank"
 rel="noopener nofollow">
-Website
+Official website
 </a>
+
+<div
+    class="google-reviews"
+    data-place-id="ChIJb2HVzleipBIRsd7SIU8GRmE">
+    <p class="loading-reviews">Loading current Google reviews…</p>
+</div>
 
 </article>
 
@@ -432,8 +591,8 @@ Website
 ★ 4.7
 </div>
 
-<p class="reviews">
-13579 Google ratings
+<p class="review-count">
+13580 Google ratings
 </p>
 
 <p>Carrer de la Boqueria, 17, Ciutat Vella, 08002 Barcelona</p>
@@ -442,75 +601,21 @@ Website
 href="https://maps.google.com/?cid=9608235316121477622&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
 target="_blank"
 rel="noopener">
-View on Google Maps
+Google Maps
 </a>
 
 <a class="button"
 href="https://www.restaurantelaboqueria.com/"
 target="_blank"
 rel="noopener nofollow">
-Website
+Official website
 </a>
 
-</article>
-
-<article class="card">
-
-<h3>Casa Amàlia</h3>
-
-<div class="rating">
-★ 4.7
+<div
+    class="google-reviews"
+    data-place-id="ChIJWXpb8PeipBIR9qHIBx1PV4U">
+    <p class="loading-reviews">Loading current Google reviews…</p>
 </div>
-
-<p class="reviews">
-11918 Google ratings
-</p>
-
-<p>Ptge. del Mercat, 14, Eixample, 08009 Barcelona</p>
-
-<a class="button"
-href="https://maps.google.com/?cid=17064161635510388204&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
-target="_blank"
-rel="noopener">
-View on Google Maps
-</a>
-
-<a class="button"
-href="https://casaamalia.com/mercatconcepcio/inicio"
-target="_blank"
-rel="noopener nofollow">
-Website
-</a>
-
-</article>
-
-<article class="card">
-
-<h3>Bodega Biarritz 1881</h3>
-
-<div class="rating">
-★ 4.7
-</div>
-
-<p class="reviews">
-9280 Google ratings
-</p>
-
-<p>Carrer Nou de Sant Francesc, 7, Ciutat Vella, 08002 Barcelona</p>
-
-<a class="button"
-href="https://maps.google.com/?cid=13354337743182678467&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
-target="_blank"
-rel="noopener">
-View on Google Maps
-</a>
-
-<a class="button"
-href="https://www.bodega-biarritz.es/"
-target="_blank"
-rel="noopener nofollow">
-Website
-</a>
 
 </article>
 
@@ -522,7 +627,7 @@ Website
 ★ 4.7
 </div>
 
-<p class="reviews">
+<p class="review-count">
 6310 Google ratings
 </p>
 
@@ -532,8 +637,14 @@ Website
 href="https://maps.google.com/?cid=889259835000928522&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
 target="_blank"
 rel="noopener">
-View on Google Maps
+Google Maps
 </a>
+
+<div
+    class="google-reviews"
+    data-place-id="ChIJ29H6d_ijpBIRCrlAwhtJVww">
+    <p class="loading-reviews">Loading current Google reviews…</p>
+</div>
 
 </article>
 
@@ -545,7 +656,7 @@ View on Google Maps
 ★ 4.7
 </div>
 
-<p class="reviews">
+<p class="review-count">
 1709 Google ratings
 </p>
 
@@ -555,38 +666,14 @@ View on Google Maps
 href="https://maps.google.com/?cid=8062852800192032925&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
 target="_blank"
 rel="noopener">
-View on Google Maps
+Google Maps
 </a>
 
-</article>
-
-<article class="card">
-
-<h3>Restaurante Can Bo</h3>
-
-<div class="rating">
-★ 4.7
+<div
+    class="google-reviews"
+    data-place-id="ChIJef1HPBWjpBIRnbC1J-cB5W8">
+    <p class="loading-reviews">Loading current Google reviews…</p>
 </div>
-
-<p class="reviews">
-925 Google ratings
-</p>
-
-<p>Via Laietana, 30, Ciutat Vella, 08003 Barcelona</p>
-
-<a class="button"
-href="https://maps.google.com/?cid=3817051933064455259&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
-target="_blank"
-rel="noopener">
-View on Google Maps
-</a>
-
-<a class="button"
-href="https://www.canbo.es/?utm_source=google&amp;utm_medium=organic&amp;utm_campaign=google-my-business"
-target="_blank"
-rel="noopener nofollow">
-Website
-</a>
 
 </article>
 
@@ -598,8 +685,8 @@ Website
 ★ 4.6
 </div>
 
-<p class="reviews">
-14092 Google ratings
+<p class="review-count">
+14093 Google ratings
 </p>
 
 <p>Rambla de Catalunya, 27, Loc, Eixample, 08007 Barcelona</p>
@@ -608,75 +695,21 @@ Website
 href="https://maps.google.com/?cid=13124236537820212529&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
 target="_blank"
 rel="noopener">
-View on Google Maps
+Google Maps
 </a>
 
 <a class="button"
 href="http://www.lalolitarestaurante.com/"
 target="_blank"
 rel="noopener nofollow">
-Website
+Official website
 </a>
 
-</article>
-
-<article class="card">
-
-<h3>Casa Lolea Barcelona</h3>
-
-<div class="rating">
-★ 4.6
+<div
+    class="google-reviews"
+    data-place-id="ChIJFbGR9zCjpBIRMe35kJinIrY">
+    <p class="loading-reviews">Loading current Google reviews…</p>
 </div>
-
-<p class="reviews">
-6632 Google ratings
-</p>
-
-<p>Carrer de Sant Pere Més Alt, 49, Ciutat Vella, 08003 Barcelona</p>
-
-<a class="button"
-href="https://maps.google.com/?cid=19653094373896884&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
-target="_blank"
-rel="noopener">
-View on Google Maps
-</a>
-
-<a class="button"
-href="https://casalolea.com/"
-target="_blank"
-rel="noopener nofollow">
-Website
-</a>
-
-</article>
-
-<article class="card">
-
-<h3>Arcano Restaurant cave</h3>
-
-<div class="rating">
-★ 4.6
-</div>
-
-<p class="reviews">
-6009 Google ratings
-</p>
-
-<p>Carrer dels Mercaders, 10, Ciutat Vella, 08003 Barcelona</p>
-
-<a class="button"
-href="https://maps.google.com/?cid=18446536898639117464&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
-target="_blank"
-rel="noopener">
-View on Google Maps
-</a>
-
-<a class="button"
-href="https://www.arcanobarcelona.com/"
-target="_blank"
-rel="noopener nofollow">
-Website
-</a>
 
 </article>
 
@@ -688,8 +721,8 @@ Website
 ★ 4.4
 </div>
 
-<p class="reviews">
-41077 Google ratings
+<p class="review-count">
+41078 Google ratings
 </p>
 
 <p>Pg. de Gràcia, 24 Bis, Eixample, 08007 Barcelona</p>
@@ -698,15 +731,21 @@ Website
 href="https://maps.google.com/?cid=787139403907623797&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
 target="_blank"
 rel="noopener">
-View on Google Maps
+Google Maps
 </a>
 
 <a class="button"
 href="https://www.elnacionalbcn.com/"
 target="_blank"
 rel="noopener nofollow">
-Website
+Official website
 </a>
+
+<div
+    class="google-reviews"
+    data-place-id="ChIJM5FFbvKipBIRdWugDh577Ao">
+    <p class="loading-reviews">Loading current Google reviews…</p>
+</div>
 
 </article>
 
@@ -717,6 +756,13 @@ Website
 <footer>
 RatedMaps.com — Independent place discovery portal.
 </footer>
+
+
+<script
+    async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPGg9UWnCosY1zpyHGUymh8naGmOT09GM&loading=async&libraries=places&callback=initRatedMapsReviews">
+</script>
+
 
 </body>
 </html>
