@@ -1,0 +1,635 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Best Hotels in London – Ratings &amp; Reviews</title>
+<meta name="description" content="Discover highly rated hotels in London. Compare ratings and read selected Google reviews on RatedMaps.">
+
+<link rel="canonical" href="https://ratedmaps.com/london/hotels/">
+
+<meta property="og:title" content="Best Hotels in London – Ratings &amp; Reviews">
+<meta property="og:description" content="Discover highly rated hotels in London. Compare ratings and read selected Google reviews on RatedMaps.">
+<meta property="og:url" content="https://ratedmaps.com/london/hotels/">
+<meta property="og:type" content="website">
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f4f4;
+    color: #171717;
+}
+
+header {
+    background: #111;
+    color: white;
+    padding: 22px 20px;
+}
+
+.brand {
+    max-width: 1100px;
+    margin: auto;
+}
+
+.logo {
+    display: inline-block;
+    color: white;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    text-decoration: none;
+}
+
+.logo span {
+    font-weight: 400;
+}
+
+.tagline {
+    margin: 5px 0 0;
+    color: #ccc;
+}
+
+.topnav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+}
+.topnav a {
+    color: #eee;
+    text-decoration: none;
+    padding: 7px 9px;
+    border-radius: 7px;
+}
+.topnav a:hover { background: #2b2b2b; }
+
+.breadcrumbs {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+}
+.breadcrumbs a { color: #174ea6; text-decoration: none; }
+
+.cuisine-menu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin: 15px 0 28px;
+}
+.cuisine-menu a {
+    background: white;
+    border: 1px solid #ddd;
+    color: #111;
+    text-decoration: none;
+    padding: 10px 13px;
+    border-radius: 999px;
+}
+
+main {
+    max-width: 1100px;
+    margin: auto;
+    padding: 30px 20px 60px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(310px,1fr));
+    gap: 22px;
+}
+
+.card {
+    background: white;
+    border-radius: 14px;
+    padding: 21px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.08);
+}
+
+.card h3 {
+    margin-top: 0;
+}
+
+.rating {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.review-count {
+    color: #666;
+    margin-top: 5px;
+}
+
+.button {
+    display: inline-block;
+    margin: 8px 5px 8px 0;
+    padding: 10px 14px;
+    background: #111;
+    color: white;
+    text-decoration: none;
+    border-radius: 7px;
+}
+
+.category {
+    display: block;
+    background: white;
+    margin: 10px 0;
+    padding: 18px;
+    text-decoration: none;
+    color: #111;
+    border-radius: 10px;
+}
+
+.google-reviews {
+    margin-top: 22px;
+    padding-top: 17px;
+    border-top: 1px solid #ddd;
+}
+
+.google-reviews h4 {
+    margin: 0 0 14px;
+}
+
+.review {
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.review:last-of-type {
+    border-bottom: 0;
+}
+
+.review-author {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.review-author img {
+    width: 38px;
+    height: 38px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.review-author a {
+    color: #111;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.review-meta {
+    color: #666;
+    font-size: 13px;
+    margin-top: 3px;
+}
+
+.review-text {
+    line-height: 1.5;
+    margin: 11px 0 7px;
+}
+
+.review-link,
+.all-reviews {
+    color: #174ea6;
+    font-size: 14px;
+}
+
+.all-reviews {
+    display: inline-block;
+    margin-top: 13px;
+}
+
+.google-attribution {
+    margin-top: 15px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #555;
+}
+
+.third-party-attribution {
+    font-size: 11px;
+    color: #777;
+}
+
+.loading-reviews,
+.review-empty {
+    color: #777;
+    font-size: 14px;
+}
+
+.notice {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 20px 0;
+    font-size: 14px;
+}
+
+footer {
+    text-align: center;
+    padding: 30px;
+    color: #777;
+}
+
+.klitty-credit {
+    color: #ff4fa3;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: .3px;
+    margin-top: 8px;
+}
+.topnav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+}
+.topnav a {
+    color: #eee;
+    text-decoration: none;
+    padding: 7px 9px;
+    border-radius: 7px;
+}
+.topnav a:hover { background: #2b2b2b; }
+.rating {
+    color: #fbbc04 !important;
+}
+.review-count {
+    color: #25D366 !important;
+    font-weight: 700;
+}
+.ratedmaps-positive-note {
+    color: #25D366;
+    font-weight: 700;
+}
+.reservation-button {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 14px;
+    background: #25D366;
+    color: #07140b !important;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 800;
+}
+.breadcrumbs {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+}
+.breadcrumbs a {
+    color: #174ea6;
+    text-decoration: none;
+}
+.cuisine-menu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin: 15px 0 28px;
+}
+.cuisine-menu a {
+    background: white;
+    border: 1px solid #ddd;
+    color: #111;
+    text-decoration: none;
+    padding: 10px 13px;
+    border-radius: 999px;
+}
+
+</style>
+
+
+<script>
+async function initRatedMapsReviews() {
+    try {
+        const { Place } = await google.maps.importLibrary("places");
+
+        const containers = document.querySelectorAll(".google-reviews");
+
+        for (const container of containers) {
+            const placeId = container.dataset.placeId;
+
+            if (!placeId) {
+                continue;
+            }
+
+            try {
+                const place = new Place({
+                    id: placeId,
+                    requestedLanguage: navigator.language || "en"
+                });
+
+                await place.fetchFields({
+                    fields: [
+                        "displayName",
+                        "reviews",
+                        "googleMapsLinks"
+                    ]
+                });
+
+                container.innerHTML = "";
+
+                const heading = document.createElement("h4");
+                heading.textContent = "Selected positive Google reviews";
+                container.appendChild(heading);
+
+                const reviews = (place.reviews || [])
+                    .filter(review => Number(review.rating || 0) >= 4)
+                    .slice(0, 3);
+
+                if (!reviews.length) {
+                    const empty = document.createElement("p");
+                    empty.className = "review-empty";
+                    empty.textContent =
+                        "No Google review text is currently available for this place.";
+                    container.appendChild(empty);
+                    continue;
+                }
+
+                for (const review of reviews) {
+                    const box = document.createElement("div");
+                    box.className = "review";
+
+                    const header = document.createElement("div");
+                    header.className = "review-author";
+
+                    const attribution = review.authorAttribution;
+
+                    if (attribution && attribution.photoURI) {
+                        const photo = document.createElement("img");
+                        photo.src = attribution.photoURI;
+                        photo.alt = "";
+                        photo.loading = "lazy";
+                        photo.referrerPolicy = "no-referrer";
+                        header.appendChild(photo);
+                    }
+
+                    const authorArea = document.createElement("div");
+
+                    if (attribution) {
+                        if (attribution.uri) {
+                            const author = document.createElement("a");
+                            author.href = attribution.uri;
+                            author.target = "_blank";
+                            author.rel = "noopener";
+                            author.textContent =
+                                attribution.displayName || "Google Maps user";
+                            authorArea.appendChild(author);
+                        } else {
+                            const author = document.createElement("strong");
+                            author.textContent =
+                                attribution.displayName || "Google Maps user";
+                            authorArea.appendChild(author);
+                        }
+                    } else {
+                        const author = document.createElement("strong");
+                        author.textContent = "Google Maps user";
+                        authorArea.appendChild(author);
+                    }
+
+                    const meta = document.createElement("div");
+                    meta.className = "review-meta";
+
+                    const stars = review.rating
+                        ? "★".repeat(Math.round(review.rating))
+                        : "";
+
+                    const age =
+                        review.relativePublishTimeDescription || "";
+
+                    meta.textContent =
+                        stars + (stars && age ? " · " : "") + age;
+
+                    authorArea.appendChild(meta);
+                    header.appendChild(authorArea);
+                    box.appendChild(header);
+
+                    if (review.text) {
+                        const text = document.createElement("p");
+                        text.className = "review-text";
+                        const fullText = String(review.text);
+                        text.textContent = fullText.length > 250
+                            ? fullText.slice(0, 247).trimEnd() + "..."
+                            : fullText;
+                        box.appendChild(text);
+                    }
+
+                    if (review.googleMapsURI) {
+                        const original = document.createElement("a");
+                        original.className = "review-link";
+                        original.href = review.googleMapsURI;
+                        original.target = "_blank";
+                        original.rel = "noopener";
+                        original.textContent =
+                            "Read original review on Google Maps";
+                        box.appendChild(original);
+                    }
+
+                    container.appendChild(box);
+                }
+
+                const attributionLine = document.createElement("div");
+                attributionLine.className = "google-attribution";
+                attributionLine.textContent = "Reviews provided by Google Maps";
+                container.appendChild(attributionLine);
+
+                if (place.attributions && place.attributions.length) {
+                    for (const attribution of place.attributions) {
+                        const line = document.createElement("div");
+                        line.className = "third-party-attribution";
+                        line.textContent = attribution;
+                        container.appendChild(line);
+                    }
+                }
+
+                if (
+                    place.googleMapsLinks &&
+                    place.googleMapsLinks.reviewsURI
+                ) {
+                    const allReviews = document.createElement("a");
+                    allReviews.className = "all-reviews";
+                    allReviews.href = place.googleMapsLinks.reviewsURI;
+                    allReviews.target = "_blank";
+                    allReviews.rel = "noopener";
+                    allReviews.textContent =
+                        "See all reviews on Google Maps";
+                    container.appendChild(allReviews);
+                }
+
+            } catch (error) {
+                console.error(
+                    "Could not load reviews for place:",
+                    placeId,
+                    error
+                );
+
+                container.innerHTML =
+                    '<p class="review-empty">Reviews could not be loaded right now.</p>';
+            }
+        }
+
+    } catch (error) {
+        console.error("Google Places could not be initialized:", error);
+    }
+}
+
+window.initRatedMapsReviews = initRatedMapsReviews;
+</script>
+
+</head>
+
+<body>
+
+<header>
+<div class="brand">
+<a class="logo" href="/">Rated<span>Maps</span></a>
+<p class="tagline">Discover places through ratings and reviews.</p>
+<div class="klitty-credit">Powered by KlittyCrew</div>
+<nav class="topnav" aria-label="Main navigation">
+<a href="/">Home</a>
+<a href="/barcelona/restaurants/">Barcelona Restaurants</a>
+<a href="/london/restaurants/">London Restaurants</a>
+<a href="/barcelona/hotels/">Barcelona Hotels</a>
+<a href="/london/hotels/">London Hotels</a>
+</nav>
+</div>
+</header>
+
+<main>
+
+<nav class="breadcrumbs"><a href="/">RatedMaps</a> › London › Hotels</nav>
+<h1>Best Hotels in London</h1>
+<p>
+Explore highly rated hotels in London.
+Compare ratings and read a selection of current Google reviews directly on RatedMaps.
+</p>
+
+
+
+<div class="notice">
+Reviews are loaded from Google when you open this page.
+The available review selection can therefore change over time.
+Use the Google Maps links for the complete and current review listing.
+</div>
+<div class="grid">
+<article class="card">
+<h3>Ruby Zoe Hotel London by IHG</h3>
+<div class="rating">★ 4.7</div>
+<p class="review-count">1368 Google ratings</p>
+<p>146, 164 Notting Hill Gate, London W11 3QG</p>
+<a class="button" href="https://maps.google.com/?cid=2398144601366367705&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">Google Maps</a><a class="button" href="https://www.ihg.com/ruby-hotels/hotels/gb/en/london/lonzo/hoteldetail?cm_mmc=GoogleMaps-_-GE-_-GB-_-LONZO" target="_blank" rel="noopener nofollow">Official website</a>
+<div class="google-reviews" data-place-id="ChIJZ3VyMmsPdkgR2Y12HM_rRyE">
+<p class="loading-reviews">Loading current Google reviews…</p>
+</div>
+</article>
+<article class="card">
+<h3>Staycity Aparthotels, London, Dalston</h3>
+<div class="rating">★ 4.6</div>
+<p class="review-count">468 Google ratings</p>
+<p>130 Kingsland High St, London E8 2LQ</p>
+<a class="button" href="https://maps.google.com/?cid=4744458776785226252&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">Google Maps</a><a class="button" href="https://www.staycity.com/london/dalston?utm_source=Directory&amp;utm_medium=organic&amp;utm_campaign=SemrushLocal" target="_blank" rel="noopener nofollow">Official website</a>
+<div class="google-reviews" data-place-id="ChIJq4LOOIwcdkgRDIrEyR6010E">
+<p class="loading-reviews">Loading current Google reviews…</p>
+</div>
+</article>
+<article class="card">
+<h3>London Bridge Hotel</h3>
+<div class="rating">★ 4.5</div>
+<p class="review-count">1334 Google ratings</p>
+<p>8-18 London Bridge St, London SE1 9SG</p>
+<a class="button" href="https://maps.google.com/?cid=15397093048780702090&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">Google Maps</a><a class="button" href="http://www.londonbridgehotel.com/" target="_blank" rel="noopener nofollow">Official website</a>
+<div class="google-reviews" data-place-id="ChIJu6GgulADdkgRisE18ox2rdU">
+<p class="loading-reviews">Loading current Google reviews…</p>
+</div>
+</article>
+<article class="card">
+<h3>The Z Hotel Trafalgar</h3>
+<div class="rating">★ 4.5</div>
+<p class="review-count">1251 Google ratings</p>
+<p>53-59 Chandos Pl, London WC2N 4HS</p>
+<a class="button" href="https://maps.google.com/?cid=14980418375236421580&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">Google Maps</a><a class="button" href="https://www.thezhotels.com/hotels/trafalgar" target="_blank" rel="noopener nofollow">Official website</a>
+<div class="google-reviews" data-place-id="ChIJpTAh-j4FdkgRzIezgiQj5c8">
+<p class="loading-reviews">Loading current Google reviews…</p>
+</div>
+</article>
+<article class="card">
+<h3>DoubleTree by Hilton London Greenwich</h3>
+<div class="rating">★ 4.3</div>
+<p class="review-count">1728 Google ratings</p>
+<p>Catherine Grove, London SE10 8FR</p>
+<a class="button" href="https://maps.google.com/?cid=7393556978675713344&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">Google Maps</a><a class="button" href="https://www.hilton.com/en/hotels/longwdi-doubletree-london-greenwich/?SEO_id=GMB-EMEA-DI-LONGWDI" target="_blank" rel="noopener nofollow">Official website</a>
+<div class="google-reviews" data-place-id="ChIJoT_-QYoCdkgRQIWTPOYwm2Y">
+<p class="loading-reviews">Loading current Google reviews…</p>
+</div>
+</article>
+<article class="card">
+<h3>The Z Hotel Holborn</h3>
+<div class="rating">★ 4.3</div>
+<p class="review-count">1470 Google ratings</p>
+<p>75 Kingsway, London WC2B 6SR</p>
+<a class="button" href="https://maps.google.com/?cid=15294913646457149567&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">Google Maps</a><a class="button" href="https://www.thezhotels.com/hotels/holborn" target="_blank" rel="noopener nofollow">Official website</a>
+<div class="google-reviews" data-place-id="ChIJn4udjLEbdkgRf1ha7-xyQtQ">
+<p class="loading-reviews">Loading current Google reviews…</p>
+</div>
+</article>
+<article class="card">
+<h3>Premier Inn London Southgate hotel</h3>
+<div class="rating">★ 4.3</div>
+<p class="review-count">724 Google ratings</p>
+<p>John Bradshaw Rd, London N14 6BN</p>
+<a class="button" href="https://maps.google.com/?cid=1678496590544654626&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">Google Maps</a><a class="button" href="https://www.premierinn.com/gb/en/hotels/england/greater-london/london/london-southgate.html?cid=GLBC_LONSGA" target="_blank" rel="noopener nofollow">Official website</a>
+<div class="google-reviews" data-place-id="ChIJxSZkfBoZdkgRIlEejME3Sxc">
+<p class="loading-reviews">Loading current Google reviews…</p>
+</div>
+</article>
+<article class="card">
+<h3>Assembly Leicester Square</h3>
+<div class="rating">★ 4.2</div>
+<p class="review-count">1706 Google ratings</p>
+<p>27 - 31 Charing Cross Rd, London WC2H 0LS</p>
+<a class="button" href="https://maps.google.com/?cid=1183434896821089414&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">Google Maps</a><a class="button" href="https://www.assemblyhotels.com/?utm_source=google&amp;utm_medium=local&amp;utm_campaign=assembly" target="_blank" rel="noopener nofollow">Official website</a>
+<div class="google-reviews" data-place-id="ChIJSwip8c0EdkgRhnTSv8RnbBA">
+<p class="loading-reviews">Loading current Google reviews…</p>
+</div>
+</article>
+<article class="card">
+<h3>Grand Royale Hyde Park</h3>
+<div class="rating">★ 3.7</div>
+<p class="review-count">2499 Google ratings</p>
+<p>1-9 Inverness Terrace, London W2 3JP</p>
+<a class="button" href="https://maps.google.com/?cid=10465869431265087161&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">Google Maps</a><a class="button" href="https://montcalmcollection.com/grand-royale-hyde-park/" target="_blank" rel="noopener nofollow">Official website</a>
+<div class="google-reviews" data-place-id="ChIJk7k46_kPdkgRuc4sFMw8PpE">
+<p class="loading-reviews">Loading current Google reviews…</p>
+</div>
+</article>
+<article class="card">
+<h3>Travelodge London Battersea</h3>
+<div class="rating">★ 3.2</div>
+<p class="review-count">1363 Google ratings</p>
+<p>200 York Rd, London SW11 3SA</p>
+<a class="button" href="https://maps.google.com/?cid=9701898373857828413&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">Google Maps</a><a class="button" href="https://www.travelodge.co.uk/hotels/43/london-battersea-hotel?utm_source=google&amp;utm_medium=GHA_Organic&amp;utm_campaign=GHA_London%20Battersea&amp;WT.tsrc=GHA_Organic" target="_blank" rel="noopener nofollow">Official website</a>
+<div class="google-reviews" data-place-id="ChIJLVa_OIQFdkgRPV68DCsRpIY">
+<p class="loading-reviews">Loading current Google reviews…</p>
+</div>
+</article></div>
+
+</main>
+
+<footer>
+RatedMaps.com — Independent place discovery portal.
+</footer>
+
+
+<script
+    async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPGg9UWnCosY1zpyHGUymh8naGmOT09GM&loading=async&libraries=places&callback=initRatedMapsReviews">
+</script>
+
+
+</body>
+</html>
