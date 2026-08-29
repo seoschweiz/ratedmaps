@@ -1,0 +1,635 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Best Bars in Zürich – Ratings &amp; Reviews</title>
+<meta name="description" content="Discover highly rated bars in Zürich. Compare ratings and read selected Google reviews on RatedMaps.">
+
+<link rel="canonical" href="https://ratedmaps.com/zurich/bars/">
+
+<meta property="og:title" content="Best Bars in Zürich – Ratings &amp; Reviews">
+<meta property="og:description" content="Discover highly rated bars in Zürich. Compare ratings and read selected Google reviews on RatedMaps.">
+<meta property="og:url" content="https://ratedmaps.com/zurich/bars/">
+<meta property="og:type" content="website">
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f4f4;
+    color: #171717;
+}
+
+header {
+    background: #111;
+    color: white;
+    padding: 22px 20px;
+}
+
+.brand {
+    max-width: 1100px;
+    margin: auto;
+}
+
+.logo {
+    display: inline-block;
+    color: white;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    text-decoration: none;
+}
+
+.logo span {
+    font-weight: 400;
+}
+
+.tagline {
+    margin: 5px 0 0;
+    color: #ccc;
+}
+
+.topnav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+}
+.topnav a {
+    color: #eee;
+    text-decoration: none;
+    padding: 7px 9px;
+    border-radius: 7px;
+}
+.topnav a:hover { background: #2b2b2b; }
+
+.breadcrumbs {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+}
+.breadcrumbs a { color: #174ea6; text-decoration: none; }
+
+.cuisine-menu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin: 15px 0 28px;
+}
+.cuisine-menu a {
+    background: white;
+    border: 1px solid #ddd;
+    color: #111;
+    text-decoration: none;
+    padding: 10px 13px;
+    border-radius: 999px;
+}
+
+main {
+    max-width: 1100px;
+    margin: auto;
+    padding: 30px 20px 60px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(310px,1fr));
+    gap: 22px;
+}
+
+.card {
+    background: white;
+    border-radius: 14px;
+    padding: 21px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.08);
+}
+
+.card h3 {
+    margin-top: 0;
+}
+
+.rating {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.review-count {
+    color: #666;
+    margin-top: 5px;
+}
+
+.button {
+    display: inline-block;
+    margin: 8px 5px 8px 0;
+    padding: 10px 14px;
+    background: #111;
+    color: white;
+    text-decoration: none;
+    border-radius: 7px;
+}
+
+.category {
+    display: block;
+    background: white;
+    margin: 10px 0;
+    padding: 18px;
+    text-decoration: none;
+    color: #111;
+    border-radius: 10px;
+}
+
+.google-reviews {
+    margin-top: 22px;
+    padding-top: 17px;
+    border-top: 1px solid #ddd;
+}
+
+.google-reviews h4 {
+    margin: 0 0 14px;
+}
+
+.review {
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.review:last-of-type {
+    border-bottom: 0;
+}
+
+.review-author {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.review-author img {
+    width: 38px;
+    height: 38px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.review-author a {
+    color: #111;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.review-meta {
+    color: #666;
+    font-size: 13px;
+    margin-top: 3px;
+}
+
+.review-text {
+    line-height: 1.5;
+    margin: 11px 0 7px;
+}
+
+.review-link,
+.all-reviews {
+    color: #174ea6;
+    font-size: 14px;
+}
+
+.all-reviews {
+    display: inline-block;
+    margin-top: 13px;
+}
+
+.google-attribution {
+    margin-top: 15px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #555;
+}
+
+.third-party-attribution {
+    font-size: 11px;
+    color: #777;
+}
+
+.loading-reviews,
+.review-empty {
+    color: #777;
+    font-size: 14px;
+}
+
+.notice {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 20px 0;
+    font-size: 14px;
+}
+
+footer {
+    text-align: center;
+    padding: 30px;
+    color: #777;
+}
+
+.klitty-credit {
+    color: #ff4fa3;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: .3px;
+    margin-top: 8px;
+}
+.topnav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+}
+.topnav a {
+    color: #eee;
+    text-decoration: none;
+    padding: 7px 9px;
+    border-radius: 7px;
+}
+.topnav a:hover { background: #2b2b2b; }
+.rating {
+    color: #fbbc04 !important;
+}
+.review-count {
+    color: #25D366 !important;
+    font-weight: 700;
+}
+.ratedmaps-positive-note {
+    color: #25D366;
+    font-weight: 700;
+}
+.reservation-button {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 14px;
+    background: #25D366;
+    color: #07140b !important;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 800;
+}
+.breadcrumbs {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+}
+.breadcrumbs a {
+    color: #174ea6;
+    text-decoration: none;
+}
+.cuisine-menu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin: 15px 0 28px;
+}
+.cuisine-menu a {
+    background: white;
+    border: 1px solid #ddd;
+    color: #111;
+    text-decoration: none;
+    padding: 10px 13px;
+    border-radius: 999px;
+}
+
+</style>
+
+
+<script>
+async function initRatedMapsReviews() {
+    try {
+        const { Place } = await google.maps.importLibrary("places");
+
+        const containers = document.querySelectorAll(".google-reviews");
+
+        for (const container of containers) {
+            const placeId = container.dataset.placeId;
+
+            if (!placeId) {
+                continue;
+            }
+
+            try {
+                const place = new Place({
+                    id: placeId,
+                    requestedLanguage: navigator.language || "en"
+                });
+
+                await place.fetchFields({
+                    fields: [
+                        "displayName",
+                        "reviews",
+                        "googleMapsLinks"
+                    ]
+                });
+
+                container.innerHTML = "";
+
+                const heading = document.createElement("h4");
+                heading.textContent = "Selected positive Google reviews";
+                container.appendChild(heading);
+
+                const reviews = (place.reviews || [])
+                    .filter(review => Number(review.rating || 0) >= 4)
+                    .slice(0, 3);
+
+                if (!reviews.length) {
+                    const empty = document.createElement("p");
+                    empty.className = "review-empty";
+                    empty.textContent =
+                        "No Google review text is currently available for this place.";
+                    container.appendChild(empty);
+                    continue;
+                }
+
+                for (const review of reviews) {
+                    const box = document.createElement("div");
+                    box.className = "review";
+
+                    const header = document.createElement("div");
+                    header.className = "review-author";
+
+                    const attribution = review.authorAttribution;
+
+                    if (attribution && attribution.photoURI) {
+                        const photo = document.createElement("img");
+                        photo.src = attribution.photoURI;
+                        photo.alt = "";
+                        photo.loading = "lazy";
+                        photo.referrerPolicy = "no-referrer";
+                        header.appendChild(photo);
+                    }
+
+                    const authorArea = document.createElement("div");
+
+                    if (attribution) {
+                        if (attribution.uri) {
+                            const author = document.createElement("a");
+                            author.href = attribution.uri;
+                            author.target = "_blank";
+                            author.rel = "noopener";
+                            author.textContent =
+                                attribution.displayName || "Google Maps user";
+                            authorArea.appendChild(author);
+                        } else {
+                            const author = document.createElement("strong");
+                            author.textContent =
+                                attribution.displayName || "Google Maps user";
+                            authorArea.appendChild(author);
+                        }
+                    } else {
+                        const author = document.createElement("strong");
+                        author.textContent = "Google Maps user";
+                        authorArea.appendChild(author);
+                    }
+
+                    const meta = document.createElement("div");
+                    meta.className = "review-meta";
+
+                    const stars = review.rating
+                        ? "★".repeat(Math.round(review.rating))
+                        : "";
+
+                    const age =
+                        review.relativePublishTimeDescription || "";
+
+                    meta.textContent =
+                        stars + (stars && age ? " · " : "") + age;
+
+                    authorArea.appendChild(meta);
+                    header.appendChild(authorArea);
+                    box.appendChild(header);
+
+                    if (review.text) {
+                        const text = document.createElement("p");
+                        text.className = "review-text";
+                        const fullText = String(review.text);
+                        text.textContent = fullText.length > 250
+                            ? fullText.slice(0, 247).trimEnd() + "..."
+                            : fullText;
+                        box.appendChild(text);
+                    }
+
+                    if (review.googleMapsURI) {
+                        const original = document.createElement("a");
+                        original.className = "review-link";
+                        original.href = review.googleMapsURI;
+                        original.target = "_blank";
+                        original.rel = "noopener";
+                        original.textContent =
+                            "Read original review on Google Maps";
+                        box.appendChild(original);
+                    }
+
+                    container.appendChild(box);
+                }
+
+                const attributionLine = document.createElement("div");
+                attributionLine.className = "google-attribution";
+                attributionLine.textContent = "Reviews provided by Google Maps";
+                container.appendChild(attributionLine);
+
+                if (place.attributions && place.attributions.length) {
+                    for (const attribution of place.attributions) {
+                        const line = document.createElement("div");
+                        line.className = "third-party-attribution";
+                        line.textContent = attribution;
+                        container.appendChild(line);
+                    }
+                }
+
+                if (
+                    place.googleMapsLinks &&
+                    place.googleMapsLinks.reviewsURI
+                ) {
+                    const allReviews = document.createElement("a");
+                    allReviews.className = "all-reviews";
+                    allReviews.href = place.googleMapsLinks.reviewsURI;
+                    allReviews.target = "_blank";
+                    allReviews.rel = "noopener";
+                    allReviews.textContent =
+                        "See all reviews on Google Maps";
+                    container.appendChild(allReviews);
+                }
+
+            } catch (error) {
+                console.error(
+                    "Could not load reviews for place:",
+                    placeId,
+                    error
+                );
+
+                container.innerHTML =
+                    '<p class="review-empty">Reviews could not be loaded right now.</p>';
+            }
+        }
+
+    } catch (error) {
+        console.error("Google Places could not be initialized:", error);
+    }
+}
+
+window.initRatedMapsReviews = initRatedMapsReviews;
+</script>
+
+</head>
+
+<body>
+
+<header>
+<div class="brand">
+<a class="logo" href="/">Rated<span>Maps</span></a>
+<p class="tagline">Discover places through ratings and reviews.</p>
+<div class="klitty-credit">Powered by KlittyCrew</div>
+<nav class="topnav" aria-label="Main navigation">
+<a href="/">Home</a>
+<a href="/barcelona/restaurants/">Barcelona Restaurants</a>
+<a href="/london/restaurants/">London Restaurants</a>
+<a href="/barcelona/hotels/">Barcelona Hotels</a>
+<a href="/london/hotels/">London Hotels</a>
+</nav>
+</div>
+</header>
+
+<main>
+
+<nav class="breadcrumbs"><a href="/">RatedMaps</a> › Zürich › Bars</nav>
+<h1>Best Bars in Zürich</h1>
+<p>
+Explore highly rated bars in Zürich.
+Compare ratings and read a selection of current Google reviews directly on RatedMaps.
+</p>
+
+
+
+<div class="notice">
+Reviews are loaded from Google when you open this page.
+The available review selection can therefore change over time.
+Use the Google Maps links for the complete and current review listing.
+</div>
+<div class="grid">
+<article class="card">
+<h3>Tales Bar</h3>
+<div class="rating">★ 4.8</div>
+<p class="review-count">877 Google ratings</p>
+<p>Selnaustrasse 29, 8001 Zürich</p>
+<a class="button" href="https://maps.google.com/?cid=2331834084249452264&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">Google Maps</a><a class="button" href="http://www.tales-bar.ch/" target="_blank" rel="noopener nofollow">Official website</a>
+<div class="google-reviews" data-place-id="ChIJX9iEhQQKkEcR6D7Wur5WXCA">
+<p class="loading-reviews">Loading current Google reviews…</p>
+</div>
+</article>
+<article class="card">
+<h3>Old Crow</h3>
+<div class="rating">★ 4.7</div>
+<p class="review-count">1301 Google ratings</p>
+<p>Schwanengasse 4, 8001 Zürich</p>
+<a class="button" href="https://maps.google.com/?cid=17011662729708219552&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">Google Maps</a><a class="button" href="http://www.oldcrow.ch/" target="_blank" rel="noopener nofollow">Official website</a>
+<div class="google-reviews" data-place-id="ChIJOUaXTwcKkEcRoKwC-x6RFew">
+<p class="loading-reviews">Loading current Google reviews…</p>
+</div>
+</article>
+<article class="card">
+<h3>BarMünster</h3>
+<div class="rating">★ 4.7</div>
+<p class="review-count">813 Google ratings</p>
+<p>Münstergasse 30, 8001 Zürich</p>
+<a class="button" href="https://maps.google.com/?cid=7985326520142663230&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">Google Maps</a><a class="button" href="http://www.barmuenster.ch/" target="_blank" rel="noopener nofollow">Official website</a>
+<div class="google-reviews" data-place-id="ChIJ1e-ejqmgmkcRPg6ceCmU0W4">
+<p class="loading-reviews">Loading current Google reviews…</p>
+</div>
+</article>
+<article class="card">
+<h3>Barfussbar</h3>
+<div class="rating">★ 4.7</div>
+<p class="review-count">482 Google ratings</p>
+<p>Stadthausquai 12, 8001 Zürich</p>
+<a class="button" href="https://maps.google.com/?cid=3718521037060913250&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">Google Maps</a><a class="button" href="http://www.barfussbar.ch/" target="_blank" rel="noopener nofollow">Official website</a>
+<div class="google-reviews" data-place-id="ChIJPYMXjqqgmkcRYjjVfy7XmjM">
+<p class="loading-reviews">Loading current Google reviews…</p>
+</div>
+</article>
+<article class="card">
+<h3>Bar am Wasser</h3>
+<div class="rating">★ 4.6</div>
+<p class="review-count">908 Google ratings</p>
+<p>Stadthausquai 1, 8001 Zürich</p>
+<a class="button" href="https://maps.google.com/?cid=7727828265119561840&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">Google Maps</a><a class="button" href="http://www.baramwasser.ch/" target="_blank" rel="noopener nofollow">Official website</a>
+<div class="google-reviews" data-place-id="ChIJTXV7SEKhmkcRcLisA93CPms">
+<p class="loading-reviews">Loading current Google reviews…</p>
+</div>
+</article>
+<article class="card">
+<h3>Mata Hari</h3>
+<div class="rating">★ 4.6</div>
+<p class="review-count">502 Google ratings</p>
+<p>Langstrasse 237, 8005 Zürich</p>
+<a class="button" href="https://maps.google.com/?cid=13406277469525372297&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">Google Maps</a><a class="button" href="http://www.matahari-bar.ch/" target="_blank" rel="noopener nofollow">Official website</a>
+<div class="google-reviews" data-place-id="ChIJjfXsURIKkEcRie1hO1SqDLo">
+<p class="loading-reviews">Loading current Google reviews…</p>
+</div>
+</article>
+<article class="card">
+<h3>Frau Gerolds Garten</h3>
+<div class="rating">★ 4.5</div>
+<p class="review-count">7062 Google ratings</p>
+<p>Geroldstrasse 23, 8005 Zürich</p>
+<a class="button" href="https://maps.google.com/?cid=4192727051825145946&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">Google Maps</a><a class="button" href="http://www.fraugerold.ch/" target="_blank" rel="noopener nofollow">Official website</a>
+<div class="google-reviews" data-place-id="ChIJowaSUz4KkEcRWmg1JAqPLzo">
+<p class="loading-reviews">Loading current Google reviews…</p>
+</div>
+</article>
+<article class="card">
+<h3>Widder Bar</h3>
+<div class="rating">★ 4.5</div>
+<p class="review-count">1217 Google ratings</p>
+<p>Widdergasse 6, 8001 Zürich</p>
+<a class="button" href="https://maps.google.com/?cid=6189210733526334454&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">Google Maps</a><a class="button" href="https://www.widderhotel.com/en/eat-drink/widder-bar/" target="_blank" rel="noopener nofollow">Official website</a>
+<div class="google-reviews" data-place-id="ChIJ_S-4JAcKkEcR9jvfy15-5FU">
+<p class="loading-reviews">Loading current Google reviews…</p>
+</div>
+</article>
+<article class="card">
+<h3>Nelson</h3>
+<div class="rating">★ 4.1</div>
+<p class="review-count">3618 Google ratings</p>
+<p>Beatengasse 11, 8001 Zürich</p>
+<a class="button" href="https://maps.google.com/?cid=17159068690424802336&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">Google Maps</a><a class="button" href="https://nelsonpubzurich.ch/" target="_blank" rel="noopener nofollow">Official website</a>
+<div class="google-reviews" data-place-id="ChIJncDJMwYKkEcRICxMsQ9CIe4">
+<p class="loading-reviews">Loading current Google reviews…</p>
+</div>
+</article>
+<article class="card">
+<h3>Rooftop</h3>
+<div class="rating">★ 4</div>
+<p class="review-count">2297 Google ratings</p>
+<p>Bahnhofstrasse 74, 8001 Zürich</p>
+<a class="button" href="https://maps.google.com/?cid=15726919961204203724&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">Google Maps</a><a class="button" href="http://www.ooo-zh.ch/" target="_blank" rel="noopener nofollow">Official website</a>
+<div class="google-reviews" data-place-id="ChIJEYCSWgYKkEcRzKCTQmE-Qdo">
+<p class="loading-reviews">Loading current Google reviews…</p>
+</div>
+</article></div>
+
+</main>
+
+<footer>
+RatedMaps.com — Independent place discovery portal.
+</footer>
+
+
+<script
+    async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPGg9UWnCosY1zpyHGUymh8naGmOT09GM&loading=async&libraries=places&callback=initRatedMapsReviews">
+</script>
+
+
+</body>
+</html>
